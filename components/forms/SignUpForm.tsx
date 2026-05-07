@@ -1,5 +1,4 @@
-import { StyleSheet } from "react-native";
-import { ThemedView } from "../common/ThemedView";
+import { StyleSheet, View } from "react-native";
 import FormInput from "../formComponents/FormInput";
 import ThemedButton from "../common/ThemedButton";
 import { useState } from "react";
@@ -12,7 +11,7 @@ const SignUpForm = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   return (
-    <ThemedView style={styles.container}>
+    <View style={styles.container}>
       <FormInput
         label="Username"
         placeholder="Enter your username"
@@ -43,7 +42,7 @@ const SignUpForm = () => {
           )
         }
       />
-    </ThemedView>
+    </View>
   );
 };
 

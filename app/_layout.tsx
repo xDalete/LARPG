@@ -17,7 +17,7 @@ export default function RootLayout() {
       <Stack
         screenOptions={{
           headerShown: false,
-          animation: "none",
+          animation: "simple_push",
         }}
       >
         <Stack.Screen name="Login" options={{ headerShown: false }} />
