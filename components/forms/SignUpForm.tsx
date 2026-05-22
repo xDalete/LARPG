@@ -1,3 +1,4 @@
+import React from "react";
 import { StyleSheet } from "react-native";
 import { ThemedView } from "../common/ThemedView";
 import FormInput from "../formComponents/FormInput";
@@ -30,16 +31,16 @@ const SignUpForm = () => {
         onChangeText={(value) => setPassword(value)}
       />
       <FormInput
-        label="Coonfirm Password"
+        label="Confirm Password"
         placeholder="Enter your password again"
         secureTextEntry
         onChangeText={(value) => setConfirmPassword(value)}
       />
       <ThemedButton
-        title="Login"
+        title="Sign Up"
         onPress={() =>
           console.log(
-            `Login pressed\nUsername: ${username}\nEmail: ${email}\nPassword: ${password}\nConfirm Password: ${confirmPassword}`,
+            `Sign Up pressed\nUsername: ${username}\nEmail: ${email}\nPassword: ${password}\nConfirm Password: ${confirmPassword}`,
           )
         }
       />
