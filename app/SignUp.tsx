@@ -1,10 +1,9 @@
 import Logo from "@/components/common/Logo";
 import { ThemedText } from "@/components/common/ThemedText";
-
 import { ThemedView } from "@/components/common/ThemedView";
 import SignUpForm from "@/components/forms/SignUpForm";
+import { ImageBackground } from "expo-image"; // <-- Alterado aqui
 import { Link } from "expo-router";
-import { ImageBackground } from "react-native";
 
 export default function Index() {
   return (
@@ -21,7 +20,7 @@ export default function Index() {
           alignItems: "center",
         }}
         imageStyle={{ opacity: 0.15 }}
-        resizeMode="contain"
+        contentFit="contain" 
       >
         <Logo />
         <SignUpForm />

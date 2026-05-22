@@ -28,6 +28,9 @@ export default function Index() {
         <Link href={"/SignUp"} replace>
           <ThemedText>Não possui uma conta?</ThemedText>
         </Link>
+        <Link href={"/Campanhas"} replace>
+          <ThemedText>CAMPANHAS</ThemedText>
+        </Link>
       </ImageBackground>
     </ThemedView>
   );
