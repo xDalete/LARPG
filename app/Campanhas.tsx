@@ -16,6 +16,7 @@ export default function Campanhas() {
                 </ThemedText>
                 <Card>
                     <ThemedText color='primary' style={{fontFamily: "Cinzel_400Regular"}}>Ventos do Destino</ThemedText>
+                    <ThemedText color='textMuted' style={{fontFamily: "IBMPlexSans_400Regular", fontSize: 10}}>MESTRE (VOCÊ)</ThemedText>
                 </Card>
             </ThemedView>
         </SafeAreaView>
