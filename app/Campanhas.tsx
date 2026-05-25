@@ -1,7 +1,6 @@
 import Card from "@/components/common/Card";
 import { ThemedText } from "@/components/common/ThemedText";
 import { ThemedView } from "@/components/common/ThemedView";
-import { ImageBackground } from "expo-image";
 import { View, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
