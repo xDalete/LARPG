@@ -1,33 +1,63 @@
-import { StyleSheet } from "react-native"
-import { LinearGradient } from 'expo-linear-gradient';
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import CustomGradient from "./CustomGradient";
+import { ViewProps } from "react-native/Libraries/Components/View/ViewPropTypes";
+import { useThemeColors } from "@/hooks/use-theme-colors";
+import { useState } from "react";
 
 type CardProps = {
-    children: React.ReactNode
-}
+  children: React.ReactNode;
+  style?: ViewProps["style"];
+  ContainerStyle?: ViewProps["style"];
+  active?: boolean;
+  onPress?: () => void;
+};
 
-export default function Card({ children }: CardProps) {
-    return (
-        <LinearGradient
-            colors={['rgba(30, 41, 59, 1)', 'rgba(17, 24, 39, 1)']}
-            style={styles.card}
-        >
-            {children}
-        </LinearGradient>
-    )
+export default function Card({
+  children,
+  style,
+  ContainerStyle,
+  active,
+  onPress,
+}: CardProps) {
+  const [pressed, setPressed] = useState(false);
+  const colorScheme = useThemeColors();
+
+  return (
+    <TouchableOpacity
+      onPress={
+        onPress &&
+        (() => {
+          onPress();
+          setPressed(true);
+          setTimeout(() => setPressed(false), 1000);
+        })
+      }
+      activeOpacity={onPress ? 0.2 : 1}
+    >
+      <View
+        style={[
+          styles.card,
+          {
+            borderColor:
+              active || pressed ? colorScheme.primary : colorScheme.border,
+          },
+          ContainerStyle,
+        ]}
+      >
+        <CustomGradient>
+          <View style={style}>{children}</View>
+        </CustomGradient>
+      </View>
+    </TouchableOpacity>
+  );
 }
 
 const styles = StyleSheet.create({
-    card: {
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 10 },
-        shadowOpacity: 0.21,
-        shadowRadius: 15,
-        elevation: 5,
-        borderRadius: 12,
-        borderWidth: 1,
-        padding: 15,
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-    }
-})
+  card: {
+    //TODO: Ajustar as cores do gradiente para combinar melhor com o tema escuro e claro
+    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.25)",
+    borderRadius: 12,
+    overflow: "hidden",
+    borderWidth: 1,
+  },
+});

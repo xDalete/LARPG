@@ -21,7 +21,7 @@ export default function Index() {
           alignItems: "center",
         }}
         imageStyle={{ opacity: 0.15 }}
-        resizeMode="contain"
+        contentFit="contain"
       >
         <Logo />
         <LoginForm />

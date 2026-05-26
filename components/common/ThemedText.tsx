@@ -4,7 +4,8 @@ import { useThemeColors } from "@/hooks/use-theme-colors";
 
 export type ThemedTextProps = TextProps & {
   type?: "default" | "title" | "defaultSemiBold" | "subtitle" | "link";
-  color?: "primary"  | "text" | "textMuted";
+  color?: "primary" | "text" | "textMuted";
+  fontSize?: number;
 };
 
 export function ThemedText({
@@ -12,6 +13,7 @@ export function ThemedText({
 
   type = "default",
   color,
+  fontSize,
   ...rest
 }: ThemedTextProps) {
   const themeColors = useThemeColors();
@@ -19,12 +21,16 @@ export function ThemedText({
   return (
     <Text
       style={[
-        { color: color ? themeColors[color] : themeColors.textMuted },
         type === "default" ? styles.default : undefined,
         type === "title" ? styles.title : undefined,
         type === "defaultSemiBold" ? styles.defaultSemiBold : undefined,
         type === "subtitle" ? styles.subtitle : undefined,
         type === "link" ? styles.link : undefined,
+        {
+          color: color ? themeColors[color] : themeColors.text,
+        },
+        fontSize ? { fontSize } : {},
+        ,
         style,
       ]}
       {...rest}
@@ -44,12 +50,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
-    fontWeight: "bold",
+    fontFamily: "Cinzel_400Regular",
     lineHeight: 32,
   },
   subtitle: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: 16,
+    fontFamily: "IBMPlexSans_400Regular",
+    lineHeight: 24,
   },
   link: {
     lineHeight: 30,

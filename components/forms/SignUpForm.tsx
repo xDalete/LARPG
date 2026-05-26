@@ -1,4 +1,3 @@
-import React from "react";
 import { StyleSheet, View } from "react-native";
 import FormInput from "../formComponents/FormInput";
 import ThemedButton from "../common/ThemedButton";
