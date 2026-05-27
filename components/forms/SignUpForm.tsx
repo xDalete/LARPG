@@ -12,33 +12,25 @@ const SignUpForm = () => {
 
   return (
     <View style={styles.container}>
-      <FormInput
-        label="Username"
-        placeholder="Enter your username"
-        onChangeText={(value) => setUsername(value)}
-      />
-      <FormInput
-        label="Email"
-        placeholder="Enter your email"
-        onChangeText={(value) => setEmail(value)}
-      />
+      <FormInput label="Username" placeholder="Enter your username" onChangeText={value => setUsername(value)} />
+      <FormInput label="Email" placeholder="Enter your email" onChangeText={value => setEmail(value)} />
       <FormInput
         label="Password"
         placeholder="Enter your password"
         secureTextEntry
-        onChangeText={(value) => setPassword(value)}
+        onChangeText={value => setPassword(value)}
       />
       <FormInput
         label="Confirm Password"
         placeholder="Enter your password again"
         secureTextEntry
-        onChangeText={(value) => setConfirmPassword(value)}
+        onChangeText={value => setConfirmPassword(value)}
       />
       <ThemedButton
         title="Sign Up"
         onPress={() =>
           console.log(
-            `Sign Up pressed\nUsername: ${username}\nEmail: ${email}\nPassword: ${password}\nConfirm Password: ${confirmPassword}`,
+            `Sign Up pressed\nUsername: ${username}\nEmail: ${email}\nPassword: ${password}\nConfirm Password: ${confirmPassword}`
           )
         }
       />
@@ -52,8 +44,8 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 16,
     justifyContent: "center",
-    alignItems: "center",
-  },
+    alignItems: "center"
+  }
 });
 
 export default SignUpForm;

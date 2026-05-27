@@ -25,7 +25,7 @@ export const Themes: { light: ColorsType; dark: ColorsType } = {
     border: "#E5E7EB",
     icon: "#687076",
     tabIconDefault: "#687076",
-    primary: "#e0a906",
+    primary: "#e0a906"
   },
   dark: {
     text: "#ECEDEE",
@@ -35,8 +35,8 @@ export const Themes: { light: ColorsType; dark: ColorsType } = {
     border: "#334155",
     icon: "#9BA1A6",
     tabIconDefault: "#9BA1A6",
-    primary: "#c79605",
-  },
+    primary: "#c79605"
+  }
 };
 
 export const Fonts = Platform.select({
@@ -48,19 +48,18 @@ export const Fonts = Platform.select({
     /** iOS `UIFontDescriptorSystemDesignRounded` */
     rounded: "ui-rounded",
     /** iOS `UIFontDescriptorSystemDesignMonospaced` */
-    mono: "ui-monospace",
+    mono: "ui-monospace"
   },
   default: {
     sans: "normal",
     serif: "serif",
     rounded: "normal",
-    mono: "monospace",
+    mono: "monospace"
   },
   web: {
     sans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
     serif: "Georgia, 'Times New Roman', serif",
-    rounded:
-      "'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif",
-    mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
-  },
+    rounded: "'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif",
+    mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace"
+  }
 });

@@ -1,8 +1,4 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
+import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { Stack } from "expo-router";
 import { useFonts, Cinzel_400Regular } from "@expo-google-fonts/cinzel";
 import { IBMPlexSans_400Regular } from "@expo-google-fonts/ibm-plex-sans";
@@ -16,7 +12,7 @@ export default function RootLayout() {
 
   const [fontsLoaded] = useFonts({
     Cinzel_400Regular,
-    IBMPlexSans_400Regular,
+    IBMPlexSans_400Regular
   });
 
   if (!fontsLoaded) {
@@ -27,7 +23,7 @@ export default function RootLayout() {
       <Stack
         screenOptions={{
           headerShown: false,
-          animation: "simple_push",
+          animation: "simple_push"
         }}
       >
         <Stack.Screen name="Login" options={{ headerShown: false }} />

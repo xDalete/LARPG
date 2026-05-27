@@ -10,24 +10,16 @@ const LoginForm = () => {
 
   return (
     <View style={styles.container}>
-      <FormInput
-        label="Username"
-        placeholder="Enter your username"
-        onChangeText={(value) => setUsername(value)}
-      />
+      <FormInput label="Username" placeholder="Enter your username" onChangeText={value => setUsername(value)} />
       <FormInput
         label="Password"
         placeholder="Enter your password"
         secureTextEntry
-        onChangeText={(value) => setPassword(value)}
+        onChangeText={value => setPassword(value)}
       />
       <ThemedButton
         title="Login"
-        onPress={() =>
-          console.log(
-            `Login pressed\nUsername: ${username}\nPassword: ${password}`,
-          )
-        }
+        onPress={() => console.log(`Login pressed\nUsername: ${username}\nPassword: ${password}`)}
       />
     </View>
   );
@@ -39,8 +31,8 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 16,
     justifyContent: "center",
-    alignItems: "center",
-  },
+    alignItems: "center"
+  }
 });
 
 export default LoginForm;

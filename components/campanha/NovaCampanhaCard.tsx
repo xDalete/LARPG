@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import Card from "../common/Card";
-import { ThemedText } from "../common/ThemedText";
+import ThemedText from "../common/ThemedText";
 import { ReactNode } from "react";
 
 type NovaCampanhaCardProps = {
@@ -11,13 +11,7 @@ type NovaCampanhaCardProps = {
   active?: boolean;
 };
 
-const NovaCampanhaCard: React.FC<NovaCampanhaCardProps> = ({
-  title,
-  subtitle,
-  icon,
-  onPress,
-  active,
-}) => {
+const NovaCampanhaCard: React.FC<NovaCampanhaCardProps> = ({ title, subtitle, icon, onPress, active }) => {
   return (
     <Card active={active} style={styles.container} onPress={onPress}>
       <View>
@@ -39,12 +33,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 16,
-    padding: 16,
+    padding: 16
   },
   iconContainer: {
     marginLeft: "auto",
-    alignItems: "center",
-  },
+    alignItems: "center"
+  }
 });
 
 export default NovaCampanhaCard;

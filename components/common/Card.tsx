@@ -12,13 +12,7 @@ type CardProps = {
   onPress?: () => void;
 };
 
-export default function Card({
-  children,
-  style,
-  ContainerStyle,
-  active,
-  onPress,
-}: CardProps) {
+export default function Card({ children, style, ContainerStyle, active, onPress }: CardProps) {
   const [pressed, setPressed] = useState(false);
   const colorScheme = useThemeColors();
 
@@ -38,10 +32,9 @@ export default function Card({
         style={[
           styles.card,
           {
-            borderColor:
-              active || pressed ? colorScheme.primary : colorScheme.border,
+            borderColor: active || pressed ? colorScheme.primary : colorScheme.border
           },
-          ContainerStyle,
+          ContainerStyle
         ]}
       >
         <CustomGradient>
@@ -58,6 +51,6 @@ const styles = StyleSheet.create({
     boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.25)",
     borderRadius: 12,
     overflow: "hidden",
-    borderWidth: 1,
-  },
+    borderWidth: 1
+  }
 });

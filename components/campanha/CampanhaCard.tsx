@@ -1,7 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import Avatar from "../common/Avatar";
 import Card from "../common/Card";
-import { ThemedText } from "../common/ThemedText";
+import ThemedText from "../common/ThemedText";
 import { ImageType } from "@/types/Types";
 
 type CampanhaCardProps = {
@@ -12,13 +12,7 @@ type CampanhaCardProps = {
   active?: boolean;
 };
 
-const CampanhaCard: React.FC<CampanhaCardProps> = ({
-  title,
-  subtitle,
-  avatar,
-  onPress,
-  active,
-}) => {
+const CampanhaCard: React.FC<CampanhaCardProps> = ({ title, subtitle, avatar, onPress, active }) => {
   return (
     <Card active={active} style={styles.container} onPress={onPress}>
       <Avatar avatar={avatar} size={64} />
@@ -39,8 +33,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 16,
-    padding: 16,
-  },
+    padding: 16
+  }
 });
 
 export default CampanhaCard;

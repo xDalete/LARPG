@@ -18,7 +18,7 @@ const Avatar: React.FC<AvatarProps> = ({ avatar, size = 64, onPress }) => {
       style={[
         styles.container,
         size ? { width: size, height: size } : {},
-        { borderColor: avatar.averageColor || colorScheme.border },
+        { borderColor: avatar.averageColor || colorScheme.border }
       ]}
       onPress={onPress}
     >
@@ -33,11 +33,11 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: "50%",
     overflow: "hidden",
-    borderWidth: 1,
+    borderWidth: 1
   },
   image: {
     width: "100%",
     height: "100%",
-    resizeMode: "cover",
-  },
+    resizeMode: "cover"
+  }
 });

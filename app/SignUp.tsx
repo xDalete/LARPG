@@ -1,6 +1,6 @@
 import Logo from "@/components/common/Logo";
-import { ThemedText } from "@/components/common/ThemedText";
-import { ThemedView } from "@/components/common/ThemedView";
+import ThemedText from "@/components/common/ThemedText";
+import ThemedView from "@/components/common/ThemedView";
 import SignUpForm from "@/components/forms/SignUpForm";
 import { ImageBackground } from "expo-image"; // <-- Alterado aqui
 import { Link } from "expo-router";
@@ -27,11 +27,11 @@ export default function Index() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   ImageBackground: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
-  },
+    alignItems: "center"
+  }
 });

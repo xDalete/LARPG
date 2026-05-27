@@ -1,10 +1,9 @@
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet, View } from "react-native";
 import CampanhaCard from "@/components/campanha/CampanhaCard";
 import NovaCampanhaCard from "@/components/campanha/NovaCampanhaCard";
-import { ThemedView } from "@/components/common/ThemedView";
-import { StyleSheet, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import ThemedView from "@/components/common/ThemedView";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 import PageHeader from "@/components/common/PageHeader";
 import { useEffect, useState } from "react";
 import { getCampanhas } from "@/api/CampanhasApi";
@@ -14,7 +13,7 @@ export default function Campanhas() {
   const [Campanhas, setCampanhas] = useState<Campanha[]>([]);
 
   useEffect(() => {
-    getCampanhas().then((response) => {
+    getCampanhas().then(response => {
       setCampanhas(response.data);
     });
   }, []);
@@ -22,12 +21,9 @@ export default function Campanhas() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ThemedView style={styles.container}>
-        <PageHeader
-          title="Campanhas"
-          subtitle="Selecione uma campanha ou entre em uma."
-        />
+        <PageHeader title="Campanhas" subtitle="Selecione uma campanha ou entre em uma." />
         <View style={styles.campanhaList}>
-          {Campanhas.map((campanha) => (
+          {Campanhas.map(campanha => (
             <CampanhaCard
               key={campanha.id}
               title={campanha.name}
@@ -55,14 +51,14 @@ export default function Campanhas() {
 
 const styles = StyleSheet.create({
   safeArea: {
-    flex: 1,
+    flex: 1
   },
   container: {
     flex: 1,
     padding: 24,
-    gap: 24,
+    gap: 24
   },
   campanhaList: {
-    gap: 20,
-  },
+    gap: 20
+  }
 });

@@ -1,5 +1,5 @@
 import { StyleSheet, View } from "react-native";
-import { ThemedText } from "./ThemedText";
+import ThemedText from "./ThemedText";
 
 type PageHeaderProps = {
   title: string;
@@ -21,8 +21,8 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title, subtitle }) => {
 
 const styles = StyleSheet.create({
   container: {
-    gap: 4,
-  },
+    gap: 4
+  }
 });
 
 export default PageHeader;
