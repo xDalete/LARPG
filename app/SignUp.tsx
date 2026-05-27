@@ -4,21 +4,14 @@ import { ThemedView } from "@/components/common/ThemedView";
 import SignUpForm from "@/components/forms/SignUpForm";
 import { ImageBackground } from "expo-image"; // <-- Alterado aqui
 import { Link } from "expo-router";
+import { StyleSheet } from "react-native";
 
 export default function Index() {
   return (
-    <ThemedView
-      style={{
-        flex: 1,
-      }}
-    >
+    <ThemedView style={styles.container}>
       <ImageBackground
         source={require("@/assets/images/dados.png")}
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
+        style={styles.ImageBackground}
         imageStyle={{ opacity: 0.15 }}
         contentFit="contain"
       >
@@ -31,3 +24,14 @@ export default function Index() {
     </ThemedView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  ImageBackground: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});

@@ -10,7 +10,6 @@ const ThemedTextInput = ({
       style={{
         ...styles.input,
         backgroundColor: colorScheme.backgroundLighter,
-
         color: colorScheme.text,
         borderColor: colorScheme.border,
       }}

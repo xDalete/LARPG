@@ -32,7 +32,7 @@ export default function Card({
           setTimeout(() => setPressed(false), 1000);
         })
       }
-      activeOpacity={onPress ? 0.2 : 1}
+      activeOpacity={onPress ? 0.5 : 1}
     >
       <View
         style={[

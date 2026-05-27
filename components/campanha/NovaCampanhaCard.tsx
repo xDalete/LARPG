@@ -1,9 +1,9 @@
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import Card from "../common/Card";
 import { ThemedText } from "../common/ThemedText";
 import { ReactNode } from "react";
 
-type CampanhaCardProps = {
+type NovaCampanhaCardProps = {
   title: string;
   subtitle: string;
   icon: ReactNode;
@@ -11,7 +11,7 @@ type CampanhaCardProps = {
   active?: boolean;
 };
 
-const CampanhaCard: React.FC<CampanhaCardProps> = ({
+const NovaCampanhaCard: React.FC<NovaCampanhaCardProps> = ({
   title,
   subtitle,
   icon,
@@ -19,16 +19,7 @@ const CampanhaCard: React.FC<CampanhaCardProps> = ({
   active,
 }) => {
   return (
-    <Card
-      active={active}
-      style={{
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 16,
-        padding: 16,
-      }}
-      onPress={onPress}
-    >
+    <Card active={active} style={styles.container} onPress={onPress}>
       <View>
         <ThemedText color="primary" type="title" fontSize={16}>
           {title}
@@ -38,8 +29,22 @@ const CampanhaCard: React.FC<CampanhaCardProps> = ({
         </ThemedText>
       </View>
 
-      <View style={{ marginLeft: "auto", alignItems: "center" }}>{icon}</View>
+      <View style={styles.iconContainer}>{icon}</View>
     </Card>
   );
 };
-export default CampanhaCard;
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 16,
+    padding: 16,
+  },
+  iconContainer: {
+    marginLeft: "auto",
+    alignItems: "center",
+  },
+});
+
+export default NovaCampanhaCard;
