@@ -1,5 +1,5 @@
 import { ProgressBar } from "@/components/campanha/Mesas/ProgressBar";
-import { ThemedView } from "@/components/common/ThemedView";
+import ThemedView from "@/components/common/ThemedView";
 
 export default function Mesa() {
     return (

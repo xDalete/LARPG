@@ -1,5 +1,5 @@
+import ThemedText from "@/components/common/ThemedText";
 import { StyleSheet, View } from "react-native";
-import { ThemedText } from "@/components/common/ThemedText";
 
 
 type TipoBarra = "vida" | "mana" | "outro";
