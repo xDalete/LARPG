@@ -14,12 +14,10 @@ const ThemedButton = ({ title, onPress }: ButtonProps) => {
       style={{
         ...styles.button,
         backgroundColor: colorScheme.backgroundLighter,
-        borderColor: colorScheme.border,
+        borderColor: colorScheme.border
       }}
     >
-      <Text style={{ ...styles.buttonText, color: colorScheme.text }}>
-        {title}
-      </Text>
+      <Text style={{ ...styles.buttonText, color: colorScheme.text }}>{title}</Text>
     </TouchableOpacity>
   );
 };
@@ -28,12 +26,12 @@ const styles = StyleSheet.create({
   button: {
     borderWidth: 1,
     padding: 10,
-    borderRadius: 8,
+    borderRadius: 8
   },
   buttonText: {
     fontSize: 16,
-    textAlign: "center",
-  },
+    textAlign: "center"
+  }
 });
 
 export default ThemedButton;

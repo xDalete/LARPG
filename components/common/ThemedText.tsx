@@ -8,7 +8,7 @@ export type ThemedTextProps = TextProps & {
   fontSize?: number;
 };
 
-export function ThemedText({
+export default function ThemedText({
   style,
 
   type = "default",
@@ -27,11 +27,11 @@ export function ThemedText({
         type === "subtitle" ? styles.subtitle : undefined,
         type === "link" ? styles.link : undefined,
         {
-          color: color ? themeColors[color] : themeColors.text,
+          color: color ? themeColors[color] : themeColors.text
         },
         fontSize ? { fontSize } : {},
         ,
-        style,
+        style
       ]}
       {...rest}
     />
@@ -41,26 +41,26 @@ export function ThemedText({
 const styles = StyleSheet.create({
   default: {
     fontSize: 16,
-    lineHeight: 24,
+    lineHeight: 24
   },
   defaultSemiBold: {
     fontSize: 16,
     lineHeight: 24,
-    fontWeight: "600",
+    fontWeight: "600"
   },
   title: {
     fontSize: 32,
     fontFamily: "Cinzel_400Regular",
-    lineHeight: 32,
+    lineHeight: 32
   },
   subtitle: {
     fontSize: 16,
     fontFamily: "IBMPlexSans_400Regular",
-    lineHeight: 24,
+    lineHeight: 24
   },
   link: {
     lineHeight: 30,
     fontSize: 16,
-    color: "#0a7ea4",
-  },
+    color: "#0a7ea4"
+  }
 });
