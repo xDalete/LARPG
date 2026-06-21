@@ -30,6 +30,7 @@ export default function RootLayout() {
         <Stack.Screen name="SignUp" options={{ headerShown: false }} />
         <Stack.Screen name="Campanhas" options={{ headerShown: false }} />
         <Stack.Screen name="Mesa" options={{ headerShown: false }} />
+        <Stack.Screen name="RolarDados" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
