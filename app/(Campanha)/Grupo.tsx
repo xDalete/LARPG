@@ -4,14 +4,14 @@ import PageHeader from "@/components/common/PageHeader";
 import ThemedView from "@/components/common/ThemedView";
 import { CharacterType } from "@/types/Types";
 import { useEffect, useState } from "react";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function Mesa() {
+export default function Grupo() {
     const [characters, setCharacters] = useState<CharacterType[]>([]);
 
     useEffect(() => {
-        getCharacters().then((response) =>{
+        getCharacters().then((response) => {
             setCharacters(response.data);
         })
     }, []);
@@ -21,16 +21,16 @@ export default function Mesa() {
             <ThemedView style={styles.container}>
                 <PageHeader title="Mesa" subtitle="Visualize sua ficha dentro da campanha." />
                 <View style={styles.characters}>
-                    {characters.map((character) => (
-                        <CharacterCard key={character.id} character={character} />
-                    ))}
+                {characters.map((character) => (
+                    <CharacterCard key={character.id} character={character} />
+                ))}
                 </View>
             </ThemedView>
         </SafeAreaView>
     );
 }
 
-const styles = {
+const styles =  StyleSheet.create({
     safeArea: {
         flex: 1
     },
@@ -40,6 +40,6 @@ const styles = {
         gap: 24
     },
     characters: {
-        gap: 20
-    }
-};
+        gap: 20, 
+    },
+});

@@ -3,7 +3,7 @@ import Avatar from "@/components/common/Avatar";
 import ThemedText from "@/components/common/ThemedText";
 import { CharacterType, ImageType } from "@/types/Types";
 import { ProgressBar } from "@/components/common/ProgressBar";
-
+import Card from "@/components/common/Card";
 interface PropriedadesCharacterCard {
     nome: string;
     descricao: string;
@@ -11,41 +11,36 @@ interface PropriedadesCharacterCard {
     level?: number;
     vidaAtual: number;
     vidaMax: number;
+    onPress?: () => void;
 }
 
 export const CharacterCard = ({ character }: { character: CharacterType }) => {
     const { nome, descricao, avatar, vidaAtual, vidaMax } = character;
     return (
-        <View style={estilos.cardContainer}>
+        <Card onPress={() => console.log("O botão foi apertado.")} style={styles.cardContainer}>
             <Avatar avatar={avatar} />
-
-            <View style={estilos.infoContainer}>
-                <ThemedText style={estilos.nome}>{nome}</ThemedText>
+            <View style={styles.infoContainer}>
+                <ThemedText style={styles.nome}>{nome}</ThemedText>
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                    <ThemedText style={estilos.descricao}>{descricao}</ThemedText>
-                    <ThemedText style={estilos.level}>Level {vidaMax / 10}</ThemedText>
+                    <ThemedText style={styles.descricao}>{descricao}</ThemedText>
+                    <ThemedText style={styles.level}>Level {vidaMax / 10}</ThemedText>
                 </View>
                 <ProgressBar current={vidaAtual} max={vidaMax} tipo="vida" showText={false} />
             </View>
-        </View>
+        </Card>
     );
 };
 
-const estilos = StyleSheet.create({
+const styles = StyleSheet.create({
     cardContainer: {
         flexDirection: "row",
         alignItems: "center",
         padding: 16,
-        backgroundColor: "#171f2c",
-        borderRadius: 12,
-        borderWidth: 1,
-        borderColor: "#2c3b52",
-        marginBottom: 16
     },
     infoContainer: {
         flex: 1,
         marginLeft: 16,
-        justifyContent: "center"
+        justifyContent: "center",
     },
     nome: {
         fontSize: 16,
@@ -53,18 +48,23 @@ const estilos = StyleSheet.create({
         textTransform: "uppercase",
         letterSpacing: 1,
         marginBottom: 4,
-        fontFamily: "serif"
+        fontFamily: "serif",
     },
     descricao: {
+        flex: 1,
+        flexShrink: 1,
+        minWidth: 0,
+        flexWrap: "wrap",
         fontSize: 12,
         color: "#a0a8b8",
         textTransform: "uppercase",
-        marginBottom: 8
+        marginRight: 8,
     },
     level: {
         fontSize: 12,
         color: "#a0a8b8",
         textTransform: "uppercase",
-        marginBottom: 8
+        marginBottom: 8,
     }
 });
+
