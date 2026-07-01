@@ -1,7 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import Avatar from "@/components/common/Avatar";
 import ThemedText from "@/components/common/ThemedText";
-import { ImageType } from "@/types/Types";
+import { CharacterType, ImageType } from "@/types/Types";
 import { ProgressBar } from "@/components/common/ProgressBar";
 
 interface PropriedadesCharacterCard {
@@ -13,7 +13,8 @@ interface PropriedadesCharacterCard {
     vidaMax: number;
 }
 
-export const CharacterCard = ({ nome, descricao, avatar, vidaAtual, vidaMax }: PropriedadesCharacterCard) => {
+export const CharacterCard = ({ character }: { character: CharacterType }) => {
+    const { nome, descricao, avatar, vidaAtual, vidaMax } = character;
     return (
         <View style={estilos.cardContainer}>
             <Avatar avatar={avatar} />

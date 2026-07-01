@@ -1,37 +1,29 @@
+import { getCharacters } from "@/api/Character.Api";
 import { CharacterCard } from "@/components/campanha/Mesas/CharacterCard";
 import PageHeader from "@/components/common/PageHeader";
 import ThemedView from "@/components/common/ThemedView";
+import { CharacterType } from "@/types/Types";
+import { useEffect, useState } from "react";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Mesa() {
+    const [characters, setCharacters] = useState<CharacterType[]>([]);
+
+    useEffect(() => {
+        getCharacters().then((response) =>{
+            setCharacters(response.data);
+        })
+    }, []);
     return (
         <SafeAreaView style={styles.safeArea}>
             {/* Falta implementar a lógica de selecionar a campanha e carregar os personagens dela, por enquanto só tem um exemplo estático */}
             <ThemedView style={styles.container}>
                 <PageHeader title="Mesa" subtitle="Visualize sua ficha dentro da campanha." />
                 <View style={styles.characters}>
-                    <CharacterCard
-                        nome="Aragorn"
-                        descricao="Guerreiro"
-                        avatar={require("@/assets/images/icon.png")}
-                        vidaAtual={50}
-                        vidaMax={100}
-                    />
-                    <CharacterCard
-                        nome="Aragorn"
-                        descricao="Guerreiro"
-                        avatar={require("@/assets/images/icon.png")}
-                        vidaAtual={50}
-                        vidaMax={100}
-                    />
-                    <CharacterCard
-                        nome="Aragorn"
-                        descricao="Guerreiro"
-                        avatar={require("@/assets/images/icon.png")}
-                        vidaAtual={50}
-                        vidaMax={100}
-                    />
+                    {characters.map((character) => (
+                        <CharacterCard key={character.id} character={character} />
+                    ))}
                 </View>
             </ThemedView>
         </SafeAreaView>
