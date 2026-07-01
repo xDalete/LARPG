@@ -8,31 +8,29 @@ import "react-native-reanimated";
 import { useColorScheme } from "react-native";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+    const colorScheme = useColorScheme();
 
-  const [fontsLoaded] = useFonts({
-    Cinzel_400Regular,
-    IBMPlexSans_400Regular
-  });
+    const [fontsLoaded] = useFonts({
+        Cinzel_400Regular,
+        IBMPlexSans_400Regular
+    });
 
-  if (!fontsLoaded) {
-    return null;
-  }
-  return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          animation: "simple_push"
-        }}
-      >
-        <Stack.Screen name="Login" options={{ headerShown: false }} />
-        <Stack.Screen name="SignUp" options={{ headerShown: false }} />
-        <Stack.Screen name="Campanhas" options={{ headerShown: false }} />
-        <Stack.Screen name="Mesa" options={{ headerShown: false }} />
-        <Stack.Screen name="RolarDados" options={{ headerShown: false }} />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
+    if (!fontsLoaded) {
+        return null;
+    }
+    return (
+        <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+            <Stack
+                screenOptions={{
+                    headerShown: false,
+                    animation: "simple_push"
+                }}
+            >
+                <Stack.Screen name="(Auth)/Login" options={{ headerShown: false }} />
+                <Stack.Screen name="(Auth)/SignUp" options={{ headerShown: false }} />
+                <Stack.Screen name="(Campanha)" options={{ headerShown: false }} />
+            </Stack>
+            <StatusBar style="auto" />
+        </ThemeProvider>
+    );
 }

@@ -1,4 +1,4 @@
 export type ImageType = {
-  uri: string;
-  averageColor?: string;
+    uri: string;
+    averageColor?: string;
 };
