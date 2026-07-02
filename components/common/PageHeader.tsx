@@ -3,18 +3,21 @@ import ThemedText from "./ThemedText";
 
 type PageHeaderProps = {
     title: string;
-    subtitle: string;
+    subtitle?: string;
+    centered?: boolean;
 };
 
-const PageHeader: React.FC<PageHeaderProps> = ({ title, subtitle }) => {
+const PageHeader: React.FC<PageHeaderProps> = ({ title, subtitle, centered }) => {
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, centered && styles.centered]}>
             <ThemedText type="title" color="primary">
                 {title}
             </ThemedText>
-            <ThemedText type="subtitle" color="textMuted">
-                {subtitle}
-            </ThemedText>
+            {subtitle && (
+                <ThemedText type="subtitle" color="textMuted">
+                    {subtitle}
+                </ThemedText>
+            )}
         </View>
     );
 };
@@ -22,6 +25,9 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title, subtitle }) => {
 const styles = StyleSheet.create({
     container: {
         gap: 4
+    },
+    centered: {
+        alignItems: "center"
     }
 });
 

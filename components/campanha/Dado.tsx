@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
 
     iconContainer: {
         marginTop: 4,
-        margin: 'auto',
+        margin: "auto",
         justifyContent: "center",
         alignItems: "center",
         width: 32,
