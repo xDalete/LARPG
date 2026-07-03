@@ -15,21 +15,7 @@ import {
     calcularModificador
 } from "@/utils/dndRules";
 
-const uriToBlob = (uri: string): Promise<Blob> => {
-    return new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.onload = function () {
-            resolve(xhr.response);
-        };
-        xhr.onerror = function (e) {
-            console.error("XHR conversion error:", e);
-            reject(new Error("Erro ao converter URI local para Blob."));
-        };
-        xhr.responseType = "blob";
-        xhr.open("GET", uri, true);
-        xhr.send(null);
-    });
-};
+
 
 type FichaContextType = {
     nomeJogador: string;
