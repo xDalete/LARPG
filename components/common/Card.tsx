@@ -48,10 +48,13 @@ export default function Card({ children, style, ContainerStyle, active, onPress 
 const styles = StyleSheet.create({
     card: {
         //TODO: Ajustar as cores do gradiente para combinar melhor com o tema escuro e claro
-        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.25)",
         borderRadius: 12,
         overflow: "hidden",
         borderWidth: 1,
-
+        shadowColor: "#000000",
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.25,
+        shadowRadius: 6,
+        elevation: 8
     }
 });

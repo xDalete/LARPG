@@ -39,11 +39,12 @@ export const ProgressBar = ({
                     style={[
                         estilos.barra,
                         {
-                            width: `${percentual}%`,
+                            flex: percentual / 100,
                             backgroundColor: corFinal
                         }
                     ]}
                 />
+                <View style={estilos.barraVazia} />
             </View>
 
             {showText && (
@@ -75,13 +76,28 @@ const estilos = StyleSheet.create({
         overflow: "hidden",
         borderWidth: 2,
         borderColor: "transparent",
-        boxShadow: "inset 0 2px 4px rgba(0, 0, 0, 0.8), inset 0 -2px 4px rgba(0, 0, 0, 0.6)"
+        shadowColor: "#000000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 4,
+        elevation: 5,
+        flexDirection: "row"
     },
 
     barra: {
         height: "100%",
         borderRadius: 10,
-        boxShadow: "inset 0 2px 4px rgba(0, 0, 0, 0.8), inset 0 -2px 4px rgba(0, 0, 0, 0.6)"
+        shadowColor: "#000000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 4,
+        elevation: 5
+    },
+
+    barraVazia: {
+        flex: 1,
+        height: "100%",
+        backgroundColor: "transparent"
     },
 
     texto: {

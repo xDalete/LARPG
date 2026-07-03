@@ -23,12 +23,12 @@ export const CharacterCard = ({ character }: { character: CharacterType }) => {
                 <ThemedText style={styles.nome}>{nome}</ThemedText>
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                     <ThemedText style={styles.descricao}>{descricao}</ThemedText>
-                    <ThemedText style={styles.level}>Level {vidaMax / 10}</ThemedText>
+                    <ThemedText style={styles.level}>Level {Math.floor(vidaMax / 10)}</ThemedText>
                 </View>
                 <ProgressBar current={vidaAtual} max={vidaMax} tipo="vida" showText={false} />
             </View>
         </Card>
-    );
+    )
 };
 
 const styles = StyleSheet.create({
@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: "#a0a8b8",
         textTransform: "uppercase",
-        marginBottom: 8,
     }
 });
 
