@@ -10,6 +10,25 @@ export type CharacterType = {
     level?: number;
     vidaAtual: number;
     vidaMax: number;
+    
+    // Campos adicionais salvos pelo usuário
+    alinhamentos?: string[];
+    historia?: string;
+    ouro?: string;
+    prata?: string;
+    bronze?: string;
+    atributos?: Record<string, string>;
+    iniciativa?: string;
+    classeArmadura?: string;
+    deslocamento?: string;
+    selectedRaceIds?: string[];
+    selectedClassIds?: string[];
+    selectedOrigins?: string[];
+    selectedKits?: string[];
+    selectedSpells?: string[];
+    selectedLanguages?: string[];
+    selectedSavingThrows?: string[];
+    selectedClassProficiencies?: string[];
 }
 
 export type RaceType = {

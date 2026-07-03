@@ -14,10 +14,10 @@ interface PropriedadesCharacterCard {
     onPress?: () => void;
 }
 
-export const CharacterCard = ({ character }: { character: CharacterType }) => {
+export const CharacterCard = ({ character, onPress }: { character: CharacterType; onPress?: () => void }) => {
     const { nome, descricao, avatar, vidaAtual, vidaMax } = character;
     return (
-        <Card onPress={() => console.log("O botão foi apertado.")} style={styles.cardContainer}>
+        <Card onPress={onPress} style={styles.cardContainer}>
             <Avatar avatar={avatar} />
             <View style={styles.infoContainer}>
                 <ThemedText style={styles.nome}>{nome}</ThemedText>

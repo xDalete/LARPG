@@ -19,12 +19,15 @@ export default function Grupo() {
     }, []);
     return (
         <SafeAreaView style={styles.safeArea}>
-            {/* Falta implementar a lógica de selecionar a campanha e carregar os personagens dela, por enquanto só tem um exemplo estático */}
             <ThemedView style={styles.container}>
                 <PageHeader title="Mesa" subtitle="Visualize sua ficha dentro da campanha." />
                 <View style={styles.characters}>
                     {characters.map((character) => (
-                        <CharacterCard key={character.id} character={character} />
+                        <CharacterCard
+                            key={character.id}
+                            character={character}
+                            onPress={() => router.push(`/(CriacaoFicha)/Ficha?characterId=${character.id}`)}
+                        />
                     ))}
                 </View>
                 <ThemedButton

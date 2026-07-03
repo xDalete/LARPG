@@ -1,62 +1,135 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet } from "react-native";
-import FormInput from "@/components/formComponents/FormInput";
-import { getRaces } from "@/api/RacaApi";
-import { getClasses } from "@/api/ClassApi";
-import MultiSelect from "@/components/common/MultiSelect";
-import { RaceType, ClassType } from "@/types/Types";
+import { View } from "react-native";
+import { getFichaMetadados, FichaMetadados } from "@/api/FichaMetadadosApi";
+import DropdownMultiSelect from "@/components/common/DropdownMultiSelect";
+import { permitirMulticlasse } from "@/utils/dndRules";
+import { globalStyles } from "@/constants/globalStyles";
 
-const RaceClassTab = () => {
-    const [availableRaces, setAvailableRaces] = useState<RaceType[]>([]);
-    const [availableClasses, setAvailableClasses] = useState<ClassType[]>([]);
-    const [selectedRaceIds, setSelectedRaceIds] = useState<string[]>([]);
-    const [selectedClassIds, setSelectedClassIds] = useState<string[]>([]);
+type RaceClassTabProps = {
+    selectedRaceIds: string[];
+    setSelectedRaceIds: (ids: string[]) => void;
+    selectedClassIds: string[];
+    setSelectedClassIds: (ids: string[]) => void;
+    selectedOrigins: string[];
+    setSelectedOrigins: (origens: string[]) => void;
+    selectedKits: string[];
+    setSelectedKits: (kits: string[]) => void;
+    selectedSpells: string[];
+    setSelectedSpells: (magias: string[]) => void;
+    selectedLanguages: string[];
+    setSelectedLanguages: (idiomas: string[]) => void;
+    selectedSavingThrows: string[];
+    setSelectedSavingThrows: (testes: string[]) => void;
+    selectedClassProficiencies: string[];
+    setSelectedClassProficiencies: (pericias: string[]) => void;
+    level: string;
+};
+
+const RaceClassTab = ({
+    selectedRaceIds,
+    setSelectedRaceIds,
+    selectedClassIds,
+    setSelectedClassIds,
+    selectedOrigins,
+    setSelectedOrigins,
+    selectedKits,
+    setSelectedKits,
+    selectedSpells,
+    setSelectedSpells,
+    selectedLanguages,
+    setSelectedLanguages,
+    selectedSavingThrows,
+    setSelectedSavingThrows,
+    selectedClassProficiencies,
+    setSelectedClassProficiencies,
+    level
+}: RaceClassTabProps) => {
+    const [metadados, setMetadados] = useState<FichaMetadados | null>(null);
 
     useEffect(() => {
         let mounted = true;
-
-        getRaces().then((res) => {
-            if (mounted) setAvailableRaces(res.data || []);
+        getFichaMetadados().then((resultado) => {
+            if (mounted) {
+                setMetadados(resultado.data);
+            }
         });
-
-        getClasses().then((res) => {
-            if (mounted) setAvailableClasses(res.data || []);
-        });
-
         return () => {
             mounted = false;
         };
     }, []);
 
+    const limiteClasses = permitirMulticlasse(level) ? undefined : 1;
+
     return (
-        <View style={styles.container}>
-            <MultiSelect
+        <View style={[globalStyles.container, { gap: 12 }]}>
+            <DropdownMultiSelect
                 label="Raça"
-                options={availableRaces}
-                selectedIds={selectedRaceIds}
+                options={metadados?.races || []}
+                selected={selectedRaceIds}
                 onChange={setSelectedRaceIds}
-                placeholder="Selecione uma ou mais raças"
+                placeholder="Selecione uma raça..."
+                maxSelections={1}
             />
 
-            <MultiSelect
+            <DropdownMultiSelect
+                label="Origem"
+                options={metadados?.origins || []}
+                selected={selectedOrigins}
+                onChange={setSelectedOrigins}
+                placeholder="Selecione origem..."
+                maxSelections={1}
+            />
+
+            <DropdownMultiSelect
                 label="Classe"
-                options={availableClasses}
-                selectedIds={selectedClassIds}
+                options={metadados?.classes || []}
+                selected={selectedClassIds}
                 onChange={setSelectedClassIds}
-                placeholder="Selecione uma ou mais classes"
+                placeholder="Selecione classe..."
+                maxSelections={limiteClasses}
             />
 
-            <FormInput label="Origem" placeholder="Órfão" />
-            <FormInput label="Kits" placeholder="Artesão" />
-            <FormInput label="Magias/Truques" placeholder="Chama Sagrada" />
-            <FormInput label="Idiomas" placeholder="Dracônico" />
-            <FormInput label="Teste de resistência" placeholder="For, Int, Car" />
+            <DropdownMultiSelect
+                label="Kits"
+                options={metadados?.kits || []}
+                selected={selectedKits}
+                onChange={setSelectedKits}
+                placeholder="Selecione kits..."
+            />
+
+            <DropdownMultiSelect
+                label="Magias/Truques"
+                options={metadados?.spells || []}
+                selected={selectedSpells}
+                onChange={setSelectedSpells}
+                placeholder="Selecione magias..."
+            />
+
+            <DropdownMultiSelect
+                label="Idiomas"
+                options={metadados?.languages || []}
+                selected={selectedLanguages}
+                onChange={setSelectedLanguages}
+                placeholder="Selecione idiomas..."
+            />
+
+            <DropdownMultiSelect
+                label="Teste de resistência"
+                options={metadados?.savingThrows || []}
+                selected={selectedSavingThrows}
+                onChange={setSelectedSavingThrows}
+                placeholder="Selecione atributos..."
+            />
+
+            <DropdownMultiSelect
+                label="Perícias de classe"
+                options={metadados?.proficiencies || []}
+                selected={selectedClassProficiencies}
+                onChange={setSelectedClassProficiencies}
+                placeholder="Selecione perícias..."
+            />
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-    container: { width: "100%", gap: 12 }
-});
 
 export default RaceClassTab;
