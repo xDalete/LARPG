@@ -81,19 +81,22 @@ export async function addDiarioEntry(entrada: DiarioEntryType): Promise<Response
 }
 
 export async function deleteDiarioEntry(id: string): Promise<ResponseType<null>> {
+    console.log("[Diario API] Deletando entrada ID:", id);
     const { error } = await supabase
         .from("diarios")
         .delete()
         .eq("id", id);
 
     if (error) {
-        console.error("Erro ao deletar entrada de diário no Supabase:", error.message);
+        console.error("[Diario API] Erro ao deletar no Supabase:", error.message);
         return {
             data: null,
             message: `Erro ao deletar: ${error.message}`,
             success: false
         };
     }
+
+    console.log("[Diario API] Entrada deletada com sucesso no Supabase!");
 
     return {
         data: null,
