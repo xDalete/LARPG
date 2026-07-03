@@ -1,6 +1,7 @@
 import React from "react";
 import { View, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import ThemedText from "@/components/common/ThemedText";
+import Card from "@/components/common/Card";
 import { useThemeColors } from "@/hooks/use-theme-colors";
 import { calcularModificador, formatarModificador } from "@/utils/dndRules";
 import { globalStyles } from "@/constants/globalStyles";
@@ -43,17 +44,20 @@ const AttributesTab = ({
     };
 
     return (
-        <View style={globalStyles.container}>
+        <View style={[globalStyles.container, { gap: 16 }]}>
             {listaAtributos.map((nomeAtributo) => {
                 const valorAtual = atributos[nomeAtributo] || "10";
                 const modificadorTexto = formatarModificador(calcularModificador(valorAtual));
 
                 return (
                     <View key={nomeAtributo} style={globalStyles.row}>
-                        <View style={styles.pillContainer}>
-                            <View style={[styles.pill, { backgroundColor: cores.backgroundLighter, borderColor: cores.border }]}>
+                        <View style={{ width: 150, height: 44, position: "relative" }}>
+                            <Card
+                                ContainerStyle={{ borderRadius: 22, height: 44 }}
+                                style={{ height: 44, justifyContent: "center", paddingLeft: 16 }}
+                            >
                                 <ThemedText style={styles.pillLabel}>{nomeAtributo.toUpperCase()}</ThemedText>
-                            </View>
+                            </Card>
                             <View style={[styles.badgeCircle, { backgroundColor: cores.background, borderColor: cores.border }]}>
                                 <ThemedText style={styles.badgeText}>{modificadorTexto}</ThemedText>
                             </View>
@@ -74,24 +78,28 @@ const AttributesTab = ({
                             onChangeText={(texto) => atualizarAtributo(nomeAtributo, texto)}
                         />
 
-                        <TouchableOpacity
-                            style={[styles.rollButton, { backgroundColor: cores.backgroundLighter, borderColor: cores.border }]}
+                        <Card
                             onPress={() => rolarDadoD20(nomeAtributo)}
+                            ContainerStyle={{ borderRadius: 8, height: 44, width: 110 }}
+                            style={{ height: 44, justifyContent: "center", alignItems: "center" }}
                         >
                             <ThemedText style={styles.rollButtonText}>ROLAR DADOS</ThemedText>
-                        </TouchableOpacity>
+                        </Card>
                     </View>
                 );
             })}
 
             <View style={globalStyles.separator} />
 
-            {/* Campos Calculados */}
+            {/* Campos Calculados */}   
             <View style={globalStyles.row}>
-                <View style={styles.pillContainerWide}>
-                    <View style={[styles.pill, { backgroundColor: cores.backgroundLighter, borderColor: cores.border }]}>
+                <View style={{ width: 190, height: 44, position: "relative" }}>
+                    <Card
+                        ContainerStyle={{ borderRadius: 22, height: 44 }}
+                        style={{ height: 44, justifyContent: "center", paddingLeft: 16 }}
+                    >
                         <ThemedText style={styles.pillLabel}>INICIATIVA</ThemedText>
-                    </View>
+                    </Card>
                 </View>
                 <TextInput
                     style={[
@@ -109,10 +117,13 @@ const AttributesTab = ({
             </View>
 
             <View style={globalStyles.row}>
-                <View style={styles.pillContainerWide}>
-                    <View style={[styles.pill, { backgroundColor: cores.backgroundLighter, borderColor: cores.border }]}>
+                <View style={{ width: 190, height: 44, position: "relative" }}>
+                    <Card
+                        ContainerStyle={{ borderRadius: 22, height: 44 }}
+                        style={{ height: 44, justifyContent: "center", paddingLeft: 16 }}
+                    >
                         <ThemedText style={styles.pillLabel}>CLASSE DE ARMADURA</ThemedText>
-                    </View>
+                    </Card>
                 </View>
                 <TextInput
                     style={[
@@ -130,10 +141,13 @@ const AttributesTab = ({
             </View>
 
             <View style={globalStyles.row}>
-                <View style={styles.pillContainerWide}>
-                    <View style={[styles.pill, { backgroundColor: cores.backgroundLighter, borderColor: cores.border }]}>
+                <View style={{ width: 190, height: 44, position: "relative" }}>
+                    <Card
+                        ContainerStyle={{ borderRadius: 22, height: 44 }}
+                        style={{ height: 44, justifyContent: "center", paddingLeft: 16 }}
+                    >
                         <ThemedText style={styles.pillLabel}>DESLOCAMENTO</ThemedText>
-                    </View>
+                    </Card>
                 </View>
                 <TextInput
                     style={[
@@ -154,24 +168,6 @@ const AttributesTab = ({
 };
 
 const styles = StyleSheet.create({
-    pillContainer: {
-        width: 150,
-        position: "relative",
-        height: 44
-    },
-    pillContainerWide: {
-        width: 190,
-        position: "relative",
-        height: 44
-    },
-    pill: {
-        width: "100%",
-        height: "100%",
-        borderRadius: 22,
-        borderWidth: 1,
-        justifyContent: "center",
-        paddingLeft: 16
-    },
     pillLabel: {
         fontSize: 11,
         fontWeight: "bold"
@@ -205,14 +201,6 @@ const styles = StyleSheet.create({
         flex: 1,
         textAlign: "left",
         paddingHorizontal: 12
-    },
-    rollButton: {
-        width: 110,
-        height: 44,
-        borderRadius: 8,
-        borderWidth: 1,
-        justifyContent: "center",
-        alignItems: "center"
     },
     rollButtonText: {
         fontSize: 10,
