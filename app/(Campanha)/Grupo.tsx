@@ -22,8 +22,8 @@ export default function Grupo() {
 
     useEffect(() => {
         if (campanhaId) {
-            getCampanhas().then((res) => {
-                const currentCampanha = res.data.find((c) => c.id === campanhaId);
+            getCampanhas().then((respostaCampanhas) => {
+                const currentCampanha = respostaCampanhas.data.find((campanha) => campanha.id === campanhaId);
                 if (currentCampanha) {
                     setCampanhaTitulo(currentCampanha.name);
                 }

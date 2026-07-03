@@ -68,11 +68,11 @@ export async function getCharacters(campanhaId?: string): Promise<ArrayResponseT
     };
 }
 
-export async function getCharacterById(id: string): Promise<ResponseType<CharacterType | undefined>> {
+export async function getCharacterById(characterId: string): Promise<ResponseType<CharacterType | undefined>> {
     const { data, error } = await supabase
         .from("personagens")
         .select("*")
-        .eq("id", id)
+        .eq("id", characterId)
         .maybeSingle();
 
     if (error) {
@@ -141,11 +141,11 @@ export async function addCharacter(personagem: CharacterType): Promise<ResponseT
     };
 }
 
-export async function deleteCharacter(id: string): Promise<ResponseType<null>> {
+export async function deleteCharacter(characterId: string): Promise<ResponseType<null>> {
     const { error } = await supabase
         .from("personagens")
         .delete()
-        .eq("id", id);
+        .eq("id", characterId);
 
     if (error) {
         console.error("Erro ao deletar personagem no Supabase:", error.message);
