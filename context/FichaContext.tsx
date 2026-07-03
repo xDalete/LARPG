@@ -15,8 +15,6 @@ import {
     calcularModificador
 } from "@/utils/dndRules";
 
-
-
 type FichaContextType = {
     nomeJogador: string;
     setNomeJogador: (nome: string) => void;

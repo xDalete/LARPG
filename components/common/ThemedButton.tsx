@@ -11,6 +11,7 @@ type ButtonProps = {
     borderRadius?: number;
     style?: StyleProp<ViewStyle>;
     textStyle?: StyleProp<TextStyle>;
+    disabled?: boolean;
 };
 
 const ThemedButton = ({
@@ -21,18 +22,21 @@ const ThemedButton = ({
     textColor,
     borderRadius,
     style,
-    textStyle
+    textStyle,
+    disabled
 }: ButtonProps) => {
     const colorScheme = useThemeColors();
     return (
         <TouchableOpacity
             onPress={onPress}
+            disabled={disabled}
             style={[
                 styles.button,
                 {
                     backgroundColor: backgroundColor || colorScheme.backgroundLighter,
                     borderColor: colorScheme.border,
-                    borderRadius: borderRadius ?? 8
+                    borderRadius: borderRadius ?? 8,
+                    opacity: disabled ? 0.5 : 1
                 },
                 style
             ]}

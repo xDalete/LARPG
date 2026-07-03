@@ -44,3 +44,13 @@ export type ClassType = {
     nome: string;
     descricao?: string;
 };
+
+export type DiarioEntryType = {
+    id: string;
+    campanhaId: string;
+    dia: string;
+    mes: string;
+    titulo: string;
+    descricao: string;
+    createdAt?: string;
+};
