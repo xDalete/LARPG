@@ -30,7 +30,7 @@ export default function Campanhas() {
                             title={campanha.name}
                             subtitle={campanha.isMaster ? "Mestre" : "Jogador"}
                             avatar={campanha.avatar}
-                            onPress={() => router.push(`/(Campanha)/Grupo?campanhaId=${campanha.id}`)}
+                            onPress={() => router.push(`/(Campanha)/Grupo?campanhaId=${campanha.id}&campanhaName=${encodeURIComponent(campanha.name)}`)}
                         />
                     ))}
                     <NovaCampanhaCard

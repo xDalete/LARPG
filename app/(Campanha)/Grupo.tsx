@@ -4,13 +4,19 @@ import PageHeader from "@/components/common/PageHeader";
 import ThemedButton from "@/components/common/ThemedButton";
 import ThemedView from "@/components/common/ThemedView";
 import { CharacterType } from "@/types/Types";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useThemeColors } from "@/hooks/use-theme-colors";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function Grupo() {
     const [characters, setCharacters] = useState<CharacterType[]>([]);
+    const cores = useThemeColors();
+    const params = useLocalSearchParams();
+    const campanhaName = params.campanhaName as string | undefined;
+    const displayTitle = campanhaName ? decodeURIComponent(campanhaName) : "Mesa";
 
     useEffect(() => {
         getCharacters().then((response) => {
@@ -20,7 +26,12 @@ export default function Grupo() {
     return (
         <SafeAreaView style={styles.safeArea}>
             <ThemedView style={styles.container}>
-                <PageHeader title="Mesa" subtitle="Visualize sua ficha dentro da campanha." />
+                <View style={styles.headerRow}>
+                    <TouchableOpacity onPress={() => router.push("/Campanhas")} style={styles.backButton}>
+                        <Ionicons name="chevron-back" size={24} color={cores.text} />
+                    </TouchableOpacity>
+                    <PageHeader title={displayTitle} subtitle="Visualize sua ficha dentro da campanha." />
+                </View>
                 <View style={styles.characters}>
                     {characters.map((character) => (
                         <CharacterCard
@@ -54,6 +65,17 @@ const styles =  StyleSheet.create({
         flex: 1,
         padding: 24,
         gap: 24
+    },
+    headerRow: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 12
+    },
+    backButton: {
+        width: 36,
+        height: 36,
+        justifyContent: "center",
+        alignItems: "center"
     },
     characters: {
         gap: 20,

@@ -3,6 +3,8 @@ import { router, useLocalSearchParams } from "expo-router";
 import { Alert } from "react-native";
 import { getCharacterById, addCharacter, deleteCharacter } from "@/api/Character.Api";
 import { CharacterType } from "@/types/Types";
+import { supabase } from "@/api/supabaseClient";
+import * as ImagePicker from "expo-image-picker";
 import {
     obterDeslocamentoPorRaca,
     obterIdiomasPorRaca,
@@ -54,6 +56,9 @@ type FichaContextType = {
     salvarFicha: () => void;
     characterId?: string;
     deletarFicha: () => void;
+    avatar: { uri: string; averageColor?: string };
+    setAvatar: React.Dispatch<React.SetStateAction<{ uri: string; averageColor?: string }>>;
+    selecionarImagem: () => void;
 };
 
 const FichaContext = createContext<FichaContextType | undefined>(undefined);
@@ -63,8 +68,12 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
     const characterId = params.characterId as string | undefined;
 
     const [nomeJogador, setNomeJogador] = useState("");
-        const [level, setLevel] = useState("1");
+    const [level, setLevel] = useState("1");
     const [alinhamentos, setAlinhamentos] = useState<string[]>(["Neutro"]);
+    const [avatar, setAvatar] = useState<{ uri: string; averageColor?: string }>({
+        uri: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=400",
+        averageColor: "#5f3b16"
+    });
     const [historia, setHistoria] = useState("");
     const [ouro, setOuro] = useState("0");
     const [prata, setPrata] = useState("0");
@@ -119,6 +128,10 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
             setSelectedLanguages([]);
             setSelectedSavingThrows([]);
             setSelectedClassProficiencies([]);
+            setAvatar({
+                uri: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=400",
+                averageColor: "#5f3b16"
+            });
             return;
         }
 
@@ -148,6 +161,9 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
                 setSelectedLanguages(char.selectedLanguages || []);
                 setSelectedSavingThrows(char.selectedSavingThrows || []);
                 setSelectedClassProficiencies(char.selectedClassProficiencies || []);
+                if (char.avatar) {
+                    setAvatar(char.avatar);
+                }
             }
         });
     }, [characterId]);
@@ -180,7 +196,7 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
         setClasseArmadura(obterClasseArmaduraPadrao(destreza));
     }, [atributos["Destreza"]]);
 
-    const salvarFicha = () => {
+    const salvarFicha = async () => {
         // Validações básicas de campos obrigatórios conforme as regras
         if (!nomeJogador.trim()) {
             Alert.alert("Campos Obrigatórios", "Por favor, digite o nome do jogador/personagem.");
@@ -209,13 +225,47 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
 
         const pontosVidaMaximos = vidaBaseDaClasse + modConstituicao;
 
+        let finalAvatarUri = avatar.uri;
+
+        if (avatar.uri.startsWith("file://") || avatar.uri.startsWith("content://")) {
+            try {
+                const response = await fetch(avatar.uri);
+                const blob = await response.blob();
+                const fileExt = avatar.uri.split(".").pop() || "jpg";
+                const tempId = characterId || Math.random().toString().replace(".", "");
+                const fileName = `${tempId}-${Date.now()}.${fileExt}`;
+                const filePath = `${fileName}`;
+
+                const { error: uploadError } = await supabase.storage
+                    .from("avatars")
+                    .upload(filePath, blob, {
+                        contentType: `image/${fileExt}`,
+                        upsert: true
+                    });
+
+                if (uploadError) {
+                    throw uploadError;
+                }
+
+                const { data: publicUrlData } = supabase.storage
+                    .from("avatars")
+                    .getPublicUrl(filePath);
+
+                finalAvatarUri = publicUrlData.publicUrl;
+            } catch (err: any) {
+                console.error("Erro ao subir imagem para o Supabase:", err);
+                Alert.alert("Erro de Upload", "Não foi possível enviar a foto do personagem. Salvando com avatar padrão.");
+                finalAvatarUri = "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=400";
+            }
+        }
+
         const personagemSalvo: CharacterType = {
             id: characterId || Math.random().toString(),
             nome: nomeJogador,
             descricao: historia || "Um herói de muitas aventuras.",
             avatar: {
-                uri: "https://cdn.discordapp.com/attachments/1404178863378141361/1508948339390025738/image.png?ex=6a176527&is=6a1613a7&hm=072691e66fec77d4e94159f73a4119bc104218e54d89873c850645e69a90a004&",
-                averageColor: "#5f3b16"
+                uri: finalAvatarUri,
+                averageColor: avatar.averageColor || "#5f3b16"
             },
             level: Number(level) || 1,
             vidaAtual: pontosVidaMaximos,
@@ -244,6 +294,25 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
         addCharacter(personagemSalvo).then(() => {
             router.push('/(Campanha)/Grupo');
         });
+    };
+
+    const selecionarImagem = async () => {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== "granted") {
+            Alert.alert("Permissão necessária", "Precisamos de permissão para acessar sua galeria!");
+            return;
+        }
+
+        const resultado = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [1, 1],
+            quality: 0.8
+        });
+
+        if (!resultado.canceled && resultado.assets && resultado.assets.length > 0) {
+            setAvatar({ uri: resultado.assets[0].uri, averageColor: "#f1c40f" });
+        }
     };
 
     const deletarFicha = () => {
@@ -281,7 +350,7 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
                 selectedKits, setSelectedKits, selectedSpells, setSelectedSpells,
                 selectedLanguages, setSelectedLanguages, selectedSavingThrows, setSelectedSavingThrows,
                 selectedClassProficiencies, setSelectedClassProficiencies, salvarFicha,
-                characterId, deletarFicha
+                characterId, deletarFicha, avatar, setAvatar, selecionarImagem
             }}
         >
             {children}

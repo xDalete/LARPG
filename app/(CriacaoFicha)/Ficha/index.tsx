@@ -12,7 +12,8 @@ export default function InfoScreen() {
             <View style={styles.container}>
                 <PageHeader title="Crie sua própria ficha" subtitle="Defina seus atributos, classe e raça." />
                 <InfoTab
-                    avatar={{ uri: "", averageColor: "#f1c40f" }}
+                    avatar={contexto.avatar}
+                    onEditAvatar={contexto.selecionarImagem}
                     nomeJogador={contexto.nomeJogador}
                     setNomeJogador={contexto.setNomeJogador}
                     level={contexto.level}

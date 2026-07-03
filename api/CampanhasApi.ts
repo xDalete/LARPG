@@ -1,41 +1,38 @@
 import { ArrayResponseType } from "@/types/ApiTypes";
 import { Campanha } from "@/types/CampanhaTypes";
-import { supabase } from "./supabaseClient";
 
 export async function getCampanhas(): Promise<ArrayResponseType<Campanha>> {
-    // Busca todas as campanhas ordenadas pela data de criação
-    const { data, error } = await supabase
-        .from("campanhas")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-    if (error) {
-        console.error("Erro ao buscar campanhas no Supabase:", error.message);
-        return {
-            data: [],
-            message: `Erro: ${error.message}`,
-            page: 1,
-            pageSize: 10,
-            rowCount: 0,
-            success: false
-        };
-    }
-
-    // Mapeia o snake_case do banco para camelCase do Typescript
-    const listaCampanhas: Campanha[] = (data || []).map((item) => ({
-        id: item.id.toString(),
-        name: item.name,
-        description: item.description,
-        isMaster: item.is_master,
-        avatar: typeof item.avatar === "string" ? JSON.parse(item.avatar) : item.avatar
-    }));
-
+    // Retorna as campanhas mockadas de forma estática com imagens permanentes do Unsplash
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     return {
-        data: listaCampanhas,
+        data: [
+            {
+                id: "1",
+                name: "Sussurro das Cinzas",
+                description:
+                    "Em 'Sussurro das Cinzas', os jogadores embarcam em uma jornada épica por um mundo onde o destino é moldado por forças misteriosas. Cada decisão tomada pelos personagens influencia o curso da história, criando uma narrativa dinâmica e envolvente. Os jogadores enfrentam desafios, formam alianças e descobrem segredos enquanto exploram um universo repleto de magia, intriga e aventura.",
+                isMaster: true,
+                avatar: {
+                    uri: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400",
+                    averageColor: "#5f3b16"
+                }
+            },
+            {
+                id: "2",
+                name: "Ventos do Destino",
+                description:
+                    "Em 'Ventos do Destino', os jogadores embarcam em uma jornada épica por um mundo onde o destino é moldado por forças misteriosas. Cada decisão tomada pelos personagens influencia o curso da história, criando uma narrativa dinâmica e envolvente. Os jogadores enfrentam desafios, formam alianças e descobrem segredos enquanto exploram um universo repleto de magia, intriga e aventura.",
+                isMaster: false,
+                avatar: {
+                    uri: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400",
+                    averageColor: "#4d1c06"
+                }
+            }
+        ],
         message: "Campanhas encontradas com sucesso",
         page: 1,
         pageSize: 10,
-        rowCount: listaCampanhas.length,
+        rowCount: 2,
         success: true
     };
 }
