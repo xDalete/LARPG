@@ -1,23 +1,42 @@
 import { useThemeColors } from "@/hooks/use-theme-colors";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, ViewStyle, TextStyle, StyleProp } from "react-native";
 
 type ButtonProps = {
     title: string;
     onPress: () => void;
+    backgroundColor?: string;
+    textColor?: string;
+    borderRadius?: number;
+    style?: StyleProp<ViewStyle>;
+    textStyle?: StyleProp<TextStyle>;
 };
 
-const ThemedButton = ({ title, onPress }: ButtonProps) => {
+const ThemedButton = ({
+    title,
+    onPress,
+    backgroundColor,
+    textColor,
+    borderRadius,
+    style,
+    textStyle
+}: ButtonProps) => {
     const colorScheme = useThemeColors();
     return (
         <TouchableOpacity
             onPress={onPress}
-            style={{
-                ...styles.button,
-                backgroundColor: colorScheme.backgroundLighter,
-                borderColor: colorScheme.border
-            }}
+            style={[
+                styles.button,
+                {
+                    backgroundColor: backgroundColor || colorScheme.backgroundLighter,
+                    borderColor: colorScheme.border,
+                    borderRadius: borderRadius ?? 8
+                },
+                style
+            ]}
         >
-            <Text style={{ ...styles.buttonText, color: colorScheme.text }}>{title}</Text>
+            <Text style={[styles.buttonText, { color: textColor || colorScheme.text }, textStyle]}>
+                {title}
+            </Text>
         </TouchableOpacity>
     );
 };
@@ -30,6 +49,7 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         fontSize: 16,
+        fontWeight: "800",
         textAlign: "center"
     }
 });
