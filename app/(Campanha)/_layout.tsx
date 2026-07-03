@@ -1,7 +1,7 @@
 import { useThemeColors } from "@/hooks/use-theme-colors";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
-import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function RootLayout() {
     const colorScheme = useThemeColors();
@@ -19,7 +19,9 @@ export default function RootLayout() {
                     paddingTop: 12
                 },
                 tabBarLabelStyle: {
-                    textTransform: "capitalize" // Capitalizes the first letter of each word
+                    textTransform: "uppercase",
+                    fontSize: 10,
+                    fontWeight: "bold"
                 },
                 sceneStyle: {
                     backgroundColor: colorScheme.background,
@@ -32,22 +34,30 @@ export default function RootLayout() {
             <Tabs.Screen
                 name="Grupo"
                 options={{
-                    tabBarIcon: ({ color, size }) => <Ionicons name="game-controller" size={size} color={color} />
+                    title: "GRUPO",
+                    tabBarIcon: ({ color, size }) => <Ionicons name="people" size={size} color={color} />
                 }}
             />
             <Tabs.Screen
                 name="Diário"
                 options={{
-                    tabBarIcon: ({ color, size }) => <Ionicons name="game-controller" size={size} color={color} />
+                    title: "DIÁRIO",
+                    tabBarIcon: ({ color, size }) => <FontAwesome5 name="scroll" size={size - 2} color={color} />
                 }}
             />
             <Tabs.Screen
                 name="Dados"
-                options={{ tabBarIcon: ({ color, size }) => <Ionicons name="dice" size={size} color={color} /> }}
+                options={{
+                    title: "DADO",
+                    tabBarIcon: ({ color, size }) => <MaterialCommunityIcons name="dice-d20" size={size + 2} color={color} />
+                }}
             />
             <Tabs.Screen
                 name="Configurações"
-                options={{ tabBarIcon: ({ color, size }) => <Ionicons name="dice" size={size} color={color} /> }}
+                options={{
+                    title: "CONFIG",
+                    tabBarIcon: ({ color, size }) => <Ionicons name="settings" size={size} color={color} />
+                }}
             />
         </Tabs>
     );

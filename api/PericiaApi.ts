@@ -6,7 +6,7 @@ export type PericiaType = {
 };
 
 export async function getClassProficiencies(): Promise<ArrayResponseType<PericiaType>> {
-    await new Promise((resolve) => setTimeout(resolve, 300));
+
     return {
         data: [
             { id: "1", nome: "Atletismo" },

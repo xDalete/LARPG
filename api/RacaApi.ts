@@ -2,7 +2,7 @@ import { ArrayResponseType } from "@/types/ApiTypes";
 import { RaceType } from "@/types/Types";
 
 export async function getRaces(): Promise<ArrayResponseType<RaceType>> {
-    await new Promise((resolve) => setTimeout(resolve, 600));
+
     return {
         data: [
             { id: "1", nome: "Humano", descricao: "Versátil e adaptável." },

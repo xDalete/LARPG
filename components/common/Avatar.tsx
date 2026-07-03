@@ -22,7 +22,12 @@ const Avatar: React.FC<AvatarProps> = ({ avatar, size = 64, onPress }) => {
             ]}
             onPress={onPress}
         >
-            <Image source={{ uri: avatar.uri }} style={styles.image} />
+            <Image 
+                source={{ uri: avatar.uri }} 
+                style={styles.image} 
+                transition={200}
+                cachePolicy="disk"
+            />
         </TouchableOpacity>
     );
 };

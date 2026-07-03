@@ -15,7 +15,7 @@ interface PropriedadesCharacterCard {
 }
 
 export const CharacterCard = ({ character, onPress }: { character: CharacterType; onPress?: () => void }) => {
-    const { nome, descricao, avatar, vidaAtual, vidaMax } = character;
+    const { nome, descricao, avatar, level, vidaAtual, vidaMax } = character;
     return (
         <Card onPress={onPress} style={styles.cardContainer}>
             <Avatar avatar={avatar} />
@@ -23,7 +23,7 @@ export const CharacterCard = ({ character, onPress }: { character: CharacterType
                 <ThemedText style={styles.nome}>{nome}</ThemedText>
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                     <ThemedText style={styles.descricao}>{descricao}</ThemedText>
-                    <ThemedText style={styles.level}>Level {Math.floor(vidaMax / 10)}</ThemedText>
+                    <ThemedText style={styles.level}>Level {level || 1}</ThemedText>
                 </View>
                 <ProgressBar current={vidaAtual} max={vidaMax} tipo="vida" showText={false} showTextOnBar={true} />
             </View>

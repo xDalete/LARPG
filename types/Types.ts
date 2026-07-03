@@ -1,6 +1,7 @@
 export type ImageType = {
     uri: string;
     averageColor?: string;
+    base64?: string;
 };
 export type CharacterType = {
     id: string;
@@ -10,6 +11,7 @@ export type CharacterType = {
     level?: number;
     vidaAtual: number;
     vidaMax: number;
+    campanhaId?: string;
     
     // Campos adicionais salvos pelo usuário
     alinhamentos?: string[];

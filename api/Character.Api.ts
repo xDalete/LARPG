@@ -28,15 +28,21 @@ function mapearPersonagem(item: any): CharacterType {
         selectedSpells: item.selected_spells,
         selectedLanguages: item.selected_languages,
         selectedSavingThrows: item.selected_saving_throws,
-        selectedClassProficiencies: item.selected_class_proficiencies
+        selectedClassProficiencies: item.selected_class_proficiencies,
+        campanhaId: item.campanha_id
     };
 }
 
-export async function getCharacters(): Promise<ArrayResponseType<CharacterType>> {
-    const { data, error } = await supabase
+export async function getCharacters(campanhaId?: string): Promise<ArrayResponseType<CharacterType>> {
+    let query = supabase
         .from("personagens")
-        .select("*")
-        .order("created_at", { ascending: false });
+        .select("*");
+
+    if (campanhaId) {
+        query = query.eq("campanha_id", campanhaId);
+    }
+
+    const { data, error } = await query.order("created_at", { ascending: false });
 
     if (error) {
         console.error("Erro ao buscar personagens no Supabase:", error.message);
@@ -110,7 +116,8 @@ export async function addCharacter(personagem: CharacterType): Promise<ResponseT
         selected_spells: personagem.selectedSpells,
         selected_languages: personagem.selectedLanguages,
         selected_saving_throws: personagem.selectedSavingThrows,
-        selected_class_proficiencies: personagem.selectedClassProficiencies
+        selected_class_proficiencies: personagem.selectedClassProficiencies,
+        campanha_id: personagem.campanhaId
     };
 
     // Upsert insere se for registro novo ou atualiza se o ID já existir

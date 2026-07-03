@@ -7,7 +7,7 @@ export type OrigemType = {
 };
 
 export async function getOrigins(): Promise<ArrayResponseType<OrigemType>> {
-    await new Promise((resolve) => setTimeout(resolve, 300));
+
     return {
         data: [
             { id: "1", nome: "Órfão", descricao: "Cresceu nas ruas sem família." },

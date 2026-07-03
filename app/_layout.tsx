@@ -6,6 +6,31 @@ import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
 
 import { useColorScheme } from "react-native";
+import { Themes } from "@/constants/theme";
+
+const CustomDarkTheme = {
+    ...DarkTheme,
+    colors: {
+        ...DarkTheme.colors,
+        background: Themes.dark.background,
+        card: Themes.dark.backgroundLighter,
+        text: Themes.dark.text,
+        border: Themes.dark.border,
+        primary: Themes.dark.primary
+    }
+};
+
+const CustomDefaultTheme = {
+    ...DefaultTheme,
+    colors: {
+        ...DefaultTheme.colors,
+        background: Themes.light.background,
+        card: Themes.light.backgroundLighter,
+        text: Themes.light.text,
+        border: Themes.light.border,
+        primary: Themes.light.primary
+    }
+};
 
 export default function RootLayout() {
     const colorScheme = useColorScheme();
@@ -19,7 +44,7 @@ export default function RootLayout() {
         return null;
     }
     return (
-        <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+        <ThemeProvider value={colorScheme === "dark" ? CustomDarkTheme : CustomDefaultTheme}>
             <Stack
                 screenOptions={{
                     headerShown: false,

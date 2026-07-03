@@ -6,7 +6,7 @@ export type KitType = {
 };
 
 export async function getKits(): Promise<ArrayResponseType<KitType>> {
-    await new Promise((resolve) => setTimeout(resolve, 300));
+
     return {
         data: [
             { id: "1", nome: "Artesão" },

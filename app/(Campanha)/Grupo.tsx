@@ -15,14 +15,15 @@ export default function Grupo() {
     const [characters, setCharacters] = useState<CharacterType[]>([]);
     const cores = useThemeColors();
     const params = useLocalSearchParams();
+    const campanhaId = params.campanhaId as string | undefined;
     const campanhaName = params.campanhaName as string | undefined;
     const displayTitle = campanhaName ? decodeURIComponent(campanhaName) : "Mesa";
 
     useEffect(() => {
-        getCharacters().then((response) => {
+        getCharacters(campanhaId).then((response) => {
             setCharacters(response.data);
-        })
-    }, []);
+        });
+    }, [campanhaId]);
     return (
         <SafeAreaView style={styles.safeArea}>
             <ThemedView style={styles.container}>
@@ -37,14 +38,14 @@ export default function Grupo() {
                         <CharacterCard
                             key={character.id}
                             character={character}
-                            onPress={() => router.push(`/(CriacaoFicha)/Ficha?characterId=${character.id}`)}
+                            onPress={() => router.push(`/(CriacaoFicha)/Ficha?characterId=${character.id}&campanhaId=${campanhaId}`)}
                         />
                     ))}
                 </View>
                 <ThemedButton
                     title="+"
                     onPress={() => {
-                        console.log(router.push('/(CriacaoFicha)/Ficha'));
+                        router.push(`/(CriacaoFicha)/Ficha?campanhaId=${campanhaId}`);
                     }}
                     backgroundColor="#f1c40f"
                     textColor="#000000"

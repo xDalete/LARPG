@@ -2,7 +2,7 @@ import { ArrayResponseType } from "@/types/ApiTypes";
 import { ClassType } from "@/types/Types";
 
 export async function getClasses(): Promise<ArrayResponseType<ClassType>> {
-    await new Promise((resolve) => setTimeout(resolve, 600));
+
     return {
         data: [
             { id: "1", nome: "Guerreiro", descricao: "Especialista em combate corpo a corpo." },

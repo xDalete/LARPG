@@ -2,7 +2,8 @@ import Dado from "@/components/campanha/Dado";
 import PageHeader from "@/components/common/PageHeader";
 import Row from "@/components/common/Row";
 import ThemedView from "@/components/common/ThemedView";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function RolarDados() {
     return (
@@ -14,34 +15,17 @@ export default function RolarDados() {
                         <Dado
                             key="D4"
                             dado="D4"
-                            icon={
-                                <Image
-                                    source={require("@/assets/images/icon.png")}
-                                    style={styles.icon}
-                                    resizeMode="contain"
-                                />
-                            }
+                            icon={<MaterialCommunityIcons name="dice-d4-outline" size={32} color="#94A3B8" />}
                         />,
                         <Dado
                             key="D6"
                             dado="D6"
-                            icon={
-                                <Image
-                                    source={require("@/assets/images/icon.png")}
-                                    style={styles.icon}
-                                    resizeMode="contain"
-                                />
-                            }
+                            icon={<MaterialCommunityIcons name="dice-d6-outline" size={32} color="#94A3B8" />}
                         />,
                         <Dado
                             key="D8"
                             dado="D8"
-                            icon={
-                                <Image
-                                    style={styles.icon}
-                                    resizeMode="contain"
-                                />
-                            }
+                            icon={<MaterialCommunityIcons name="dice-d8-outline" size={32} color="#94A3B8" />}
                         />
                     ]}
                     gap={12}
@@ -51,34 +35,21 @@ export default function RolarDados() {
                         <Dado
                             key="D12"
                             dado="D12"
-                            icon={
-                                <Image
-                                    source={require("@/assets/images/icon.png")}
-                                    style={styles.icon}
-                                    resizeMode="contain"
-                                />
-                            }
+                            icon={<MaterialCommunityIcons name="dice-d12-outline" size={32} color="#94A3B8" />}
                         />,
                         <Dado
                             key="D20"
                             dado="D20"
-                            icon={
-                                <Image
-                                    source={require("@/assets/images/icon.png")}
-                                    style={styles.icon}
-                                    resizeMode="contain"
-                                />
-                            }
+                            icon={<MaterialCommunityIcons name="dice-d20-outline" size={32} color="#94A3B8" />}
                         />,
                         <Dado
                             key="D100"
                             dado="D100"
                             icon={
-                                <Image
-                                    source={require("@/assets/images/icon.png")}
-                                    style={styles.icon}
-                                    resizeMode="contain"
-                                />
+                                <View style={{ justifyContent: "center", alignItems: "center" }}>
+                                    <MaterialCommunityIcons name="cards-diamond-outline" size={32} color="#94A3B8" />
+                                    <Text style={{ position: "absolute", fontSize: 8, fontWeight: "bold", color: "#94A3B8", textAlign: "center" }}>100</Text>
+                                </View>
                             }
                         />
                     ]}

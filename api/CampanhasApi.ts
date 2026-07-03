@@ -3,7 +3,7 @@ import { Campanha } from "@/types/CampanhaTypes";
 
 export async function getCampanhas(): Promise<ArrayResponseType<Campanha>> {
     // Retorna as campanhas mockadas de forma estática com imagens permanentes do Unsplash
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     return {
         data: [
             {

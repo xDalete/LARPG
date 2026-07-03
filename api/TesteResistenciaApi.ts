@@ -6,7 +6,7 @@ export type TesteResistenciaType = {
 };
 
 export async function getSavingThrows(): Promise<ArrayResponseType<TesteResistenciaType>> {
-    await new Promise((resolve) => setTimeout(resolve, 300));
+
     return {
         data: [
             { id: "Força", nome: "Força" },

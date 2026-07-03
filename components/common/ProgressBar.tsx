@@ -30,31 +30,37 @@ export const ProgressBar = ({
 }: PropriedadesProgressBar) => {
     const corFinal = color || coresPadroes[tipo];
 
-    const percentual = (current / max) * 100;
+    const divisor = max <= 0 ? 1 : max;
+    const percentual = (current / divisor) * 100;
+    const percentualValido = Math.max(0, Math.min(100, percentual));
+    const flexPreenchido = percentualValido / 100;
+    const flexVazio = 1 - flexPreenchido;
 
     return (
         <View style={estilos.container}>
             {label && <ThemedText style={estilos.rotulo}>{label}</ThemedText>}
 
             <View style={estilos.containerBarra}>
-                <View
-                    style={[
-                        estilos.barra,
-                        {
-                            flex: percentual / 100,
-                            backgroundColor: corFinal,
-                            justifyContent: "center",
-                            alignItems: "center"
-                        }
-                    ]}
-                >
-                    {showTextOnBar && percentual > 20 && (
-                        <ThemedText style={estilos.textoNaBarra}>
-                            {current} / {max}
-                        </ThemedText>
-                    )}
-                </View>
-                <View style={estilos.barraVazia} />
+                {flexPreenchido > 0 && (
+                    <View
+                        style={[
+                            estilos.barra,
+                            {
+                                flex: flexPreenchido,
+                                backgroundColor: corFinal,
+                                justifyContent: "center",
+                                alignItems: "center"
+                            }
+                        ]}
+                    >
+                        {showTextOnBar && percentualValido > 20 && (
+                            <ThemedText style={estilos.textoNaBarra}>
+                                {current} / {max}
+                            </ThemedText>
+                        )}
+                    </View>
+                )}
+                {flexVazio > 0 && <View style={[estilos.barraVazia, { flex: flexVazio }]} />}
             </View>
 
             {showText && (

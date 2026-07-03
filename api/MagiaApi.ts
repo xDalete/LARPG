@@ -6,7 +6,7 @@ export type MagiaType = {
 };
 
 export async function getSpells(): Promise<ArrayResponseType<MagiaType>> {
-    await new Promise((resolve) => setTimeout(resolve, 300));
+
     return {
         data: [
             { id: "1", nome: "Chama Sagrada" },

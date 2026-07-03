@@ -2,9 +2,10 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { Alert } from "react-native";
 import { getCharacterById, addCharacter, deleteCharacter } from "@/api/Character.Api";
-import { CharacterType } from "@/types/Types";
+import { CharacterType, ImageType } from "@/types/Types";
 import { supabase } from "@/api/supabaseClient";
 import * as ImagePicker from "expo-image-picker";
+import { decode } from "base64-arraybuffer";
 import {
     obterDeslocamentoPorRaca,
     obterIdiomasPorRaca,
@@ -13,6 +14,22 @@ import {
     obterClasseArmaduraPadrao,
     calcularModificador
 } from "@/utils/dndRules";
+
+const uriToBlob = (uri: string): Promise<Blob> => {
+    return new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            resolve(xhr.response);
+        };
+        xhr.onerror = function (e) {
+            console.error("XHR conversion error:", e);
+            reject(new Error("Erro ao converter URI local para Blob."));
+        };
+        xhr.responseType = "blob";
+        xhr.open("GET", uri, true);
+        xhr.send(null);
+    });
+};
 
 type FichaContextType = {
     nomeJogador: string;
@@ -55,9 +72,10 @@ type FichaContextType = {
     setSelectedClassProficiencies: (pericias: string[]) => void;
     salvarFicha: () => void;
     characterId?: string;
+    campanhaId?: string;
     deletarFicha: () => void;
-    avatar: { uri: string; averageColor?: string };
-    setAvatar: React.Dispatch<React.SetStateAction<{ uri: string; averageColor?: string }>>;
+    avatar: ImageType;
+    setAvatar: React.Dispatch<React.SetStateAction<ImageType>>;
     selecionarImagem: () => void;
 };
 
@@ -66,11 +84,14 @@ const FichaContext = createContext<FichaContextType | undefined>(undefined);
 export function FichaProvider({ children }: { children: React.ReactNode }) {
     const params = useLocalSearchParams();
     const characterId = params.characterId as string | undefined;
+    const urlCampanhaId = params.campanhaId as string | undefined;
+
+    const [campanhaId, setCampanhaId] = useState<string | undefined>(urlCampanhaId);
 
     const [nomeJogador, setNomeJogador] = useState("");
     const [level, setLevel] = useState("1");
     const [alinhamentos, setAlinhamentos] = useState<string[]>(["Neutro"]);
-    const [avatar, setAvatar] = useState<{ uri: string; averageColor?: string }>({
+    const [avatar, setAvatar] = useState<ImageType>({
         uri: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=400",
         averageColor: "#5f3b16"
     });
@@ -132,6 +153,7 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
                 uri: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=400",
                 averageColor: "#5f3b16"
             });
+            setCampanhaId(urlCampanhaId);
             return;
         }
 
@@ -164,9 +186,12 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
                 if (char.avatar) {
                     setAvatar(char.avatar);
                 }
+                if (char.campanhaId) {
+                    setCampanhaId(char.campanhaId);
+                }
             }
         });
-    }, [characterId]);
+    }, [characterId, urlCampanhaId]);
 
     // Automação Raça
     useEffect(() => {
@@ -202,6 +227,11 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
             Alert.alert("Campos Obrigatórios", "Por favor, digite o nome do jogador/personagem.");
             return;
         }
+        const levelNum = Number(level);
+        if (isNaN(levelNum) || !Number.isInteger(levelNum) || levelNum < 1 || levelNum > 20) {
+            Alert.alert("Campos Obrigatórios", "Por favor, insira um nível inteiro válido entre 1 e 20.");
+            return;
+        }
         if (selectedRaceIds.length === 0) {
             Alert.alert("Campos Obrigatórios", "Por favor, selecione uma raça.");
             return;
@@ -227,10 +257,9 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
 
         let finalAvatarUri = avatar.uri;
 
-        if (avatar.uri.startsWith("file://") || avatar.uri.startsWith("content://")) {
+        if (avatar.base64) {
             try {
-                const response = await fetch(avatar.uri);
-                const blob = await response.blob();
+                const arrayBuffer = decode(avatar.base64);
                 const fileExt = avatar.uri.split(".").pop() || "jpg";
                 const tempId = characterId || Math.random().toString().replace(".", "");
                 const fileName = `${tempId}-${Date.now()}.${fileExt}`;
@@ -238,7 +267,7 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
 
                 const { error: uploadError } = await supabase.storage
                     .from("avatars")
-                    .upload(filePath, blob, {
+                    .upload(filePath, arrayBuffer, {
                         contentType: `image/${fileExt}`,
                         upsert: true
                     });
@@ -253,7 +282,7 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
 
                 finalAvatarUri = publicUrlData.publicUrl;
             } catch (err: any) {
-                console.error("Erro ao subir imagem para o Supabase:", err);
+                console.error("Erro ao subir imagem para o Supabase via Base64:", err);
                 Alert.alert("Erro de Upload", "Não foi possível enviar a foto do personagem. Salvando com avatar padrão.");
                 finalAvatarUri = "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=400";
             }
@@ -261,6 +290,7 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
 
         const personagemSalvo: CharacterType = {
             id: characterId || Math.random().toString(),
+            campanhaId: campanhaId || undefined,
             nome: nomeJogador,
             descricao: historia || "Um herói de muitas aventuras.",
             avatar: {
@@ -307,11 +337,16 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [1, 1],
-            quality: 0.8
+            quality: 0.8,
+            base64: true
         });
 
         if (!resultado.canceled && resultado.assets && resultado.assets.length > 0) {
-            setAvatar({ uri: resultado.assets[0].uri, averageColor: "#f1c40f" });
+            setAvatar({
+                uri: resultado.assets[0].uri,
+                averageColor: "#f1c40f",
+                base64: resultado.assets[0].base64 || undefined
+            });
         }
     };
 
@@ -350,7 +385,7 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
                 selectedKits, setSelectedKits, selectedSpells, setSelectedSpells,
                 selectedLanguages, setSelectedLanguages, selectedSavingThrows, setSelectedSavingThrows,
                 selectedClassProficiencies, setSelectedClassProficiencies, salvarFicha,
-                characterId, deletarFicha, avatar, setAvatar, selecionarImagem
+                characterId, campanhaId, deletarFicha, avatar, setAvatar, selecionarImagem
             }}
         >
             {children}

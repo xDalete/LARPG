@@ -19,8 +19,10 @@ const Dado: React.FC<DadosProps> = ({ dado, icon, onPress }) => {
 
 const styles = StyleSheet.create({
     container: {
-        width: 100,
-        padding: 16
+        width: "100%",
+        padding: 16,
+        alignItems: "center",
+        justifyContent: "center"
     },
     cardContent: {
         flex: 1,
@@ -31,7 +33,6 @@ const styles = StyleSheet.create({
 
     iconContainer: {
         marginTop: 4,
-        margin: "auto",
         justifyContent: "center",
         alignItems: "center",
         width: 32,

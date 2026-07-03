@@ -6,7 +6,7 @@ export type IdiomaType = {
 };
 
 export async function getLanguages(): Promise<ArrayResponseType<IdiomaType>> {
-    await new Promise((resolve) => setTimeout(resolve, 300));
+
     return {
         data: [
             { id: "1", nome: "Comum" },
