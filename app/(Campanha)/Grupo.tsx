@@ -4,26 +4,42 @@ import PageHeader from "@/components/common/PageHeader";
 import ThemedButton from "@/components/common/ThemedButton";
 import ThemedView from "@/components/common/ThemedView";
 import { CharacterType } from "@/types/Types";
-import { router, useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
+import { router, useLocalSearchParams, useFocusEffect } from "expo-router";
+import { useState, useCallback, useEffect } from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useThemeColors } from "@/hooks/use-theme-colors";
 import { Ionicons } from "@expo/vector-icons";
+import { getCampanhas } from "@/api/CampanhasApi";
 
 export default function Grupo() {
     const [characters, setCharacters] = useState<CharacterType[]>([]);
+    const [campanhaTitulo, setCampanhaTitulo] = useState("Mesa");
     const cores = useThemeColors();
     const params = useLocalSearchParams();
     const campanhaId = params.campanhaId as string | undefined;
     const campanhaName = params.campanhaName as string | undefined;
-    const displayTitle = campanhaName ? decodeURIComponent(campanhaName) : "Mesa";
 
     useEffect(() => {
-        getCharacters(campanhaId).then((response) => {
-            setCharacters(response.data);
-        });
-    }, [campanhaId]);
+        if (campanhaId) {
+            getCampanhas().then((res) => {
+                const currentCampanha = res.data.find((c) => c.id === campanhaId);
+                if (currentCampanha) {
+                    setCampanhaTitulo(currentCampanha.name);
+                }
+            });
+        } else if (campanhaName) {
+            setCampanhaTitulo(decodeURIComponent(campanhaName));
+        }
+    }, [campanhaId, campanhaName]);
+
+    useFocusEffect(
+        useCallback(() => {
+            getCharacters(campanhaId).then((response) => {
+                setCharacters(response.data);
+            });
+        }, [campanhaId])
+    );
     return (
         <SafeAreaView style={styles.safeArea}>
             <ThemedView style={styles.container}>
@@ -31,7 +47,7 @@ export default function Grupo() {
                     <TouchableOpacity onPress={() => router.push("/Campanhas")} style={styles.backButton}>
                         <Ionicons name="chevron-back" size={24} color={cores.text} />
                     </TouchableOpacity>
-                    <PageHeader title={displayTitle} subtitle="Visualize sua ficha dentro da campanha." />
+                    <PageHeader title={campanhaTitulo} subtitle="Visualize sua ficha dentro da campanha." />
                 </View>
                 <View style={styles.characters}>
                     {characters.map((character) => (

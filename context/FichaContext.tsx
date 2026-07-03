@@ -87,7 +87,7 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
     const urlCampanhaId = params.campanhaId as string | undefined;
 
     const [campanhaId, setCampanhaId] = useState<string | undefined>(urlCampanhaId);
-
+    const [isSaving, setIsSaving] = useState(false);
     const [nomeJogador, setNomeJogador] = useState("");
     const [level, setLevel] = useState("1");
     const [alinhamentos, setAlinhamentos] = useState<string[]>(["Neutro"]);
@@ -222,6 +222,8 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
     }, [atributos["Destreza"]]);
 
     const salvarFicha = async () => {
+        if (isSaving) return;
+
         // Validações básicas de campos obrigatórios conforme as regras
         if (!nomeJogador.trim()) {
             Alert.alert("Campos Obrigatórios", "Por favor, digite o nome do jogador/personagem.");
@@ -240,6 +242,8 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
             Alert.alert("Campos Obrigatórios", "Por favor, selecione uma classe.");
             return;
         }
+
+        setIsSaving(true);
 
         // Calcula os pontos de vida conforme regras D&D 5e:
         // Dados de vida inicial da primeira classe selecionada + Mod de Constituição
@@ -321,15 +325,25 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
             selectedClassProficiencies
         };
 
-        addCharacter(personagemSalvo).then(() => {
-            router.push('/(Campanha)/Grupo');
+        addCharacter(personagemSalvo).then((res) => {
+            if (res.success) {
+                router.navigate(campanhaId ? `/(Campanha)/Grupo?campanhaId=${campanhaId}` : `/(Campanha)/Grupo`);
+            } else {
+                Alert.alert("Erro", "Não foi possível salvar o personagem.");
+                setIsSaving(false);
+            }
+        }).catch((err) => {
+            console.error("Erro ao salvar personagem:", err);
+            Alert.alert("Erro", "Ocorreu um erro ao salvar o personagem.");
+            setIsSaving(false);
         });
     };
 
     const selecionarImagem = async () => {
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
         if (status !== "granted") {
-            Alert.alert("Permissão necessária", "Precisamos de permissão para acessar sua galeria!");
+            Alert.alert("Permissão necessária", "Precisamos de permissão para acessar sua galeria.");
             return;
         }
 
@@ -363,7 +377,7 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
                     onPress: () => {
                         deleteCharacter(characterId).then((res) => {
                             if (res.success) {
-                                router.push('/(Campanha)/Grupo');
+                                router.navigate(campanhaId ? `/(Campanha)/Grupo?campanhaId=${campanhaId}` : `/(Campanha)/Grupo`);
                             } else {
                                 Alert.alert("Erro", "Não foi possível deletar o personagem.");
                             }

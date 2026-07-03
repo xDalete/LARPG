@@ -8,12 +8,15 @@ import ThemedButton from "@/components/common/ThemedButton";
 
 function FichaTabsContent() {
     const cores = useThemeColors();
-    const { characterId, salvarFicha, deletarFicha } = useFicha();
+    const { characterId, campanhaId, salvarFicha, deletarFicha } = useFicha();
 
     return (
         <View style={styles.outerContainer}>
             <View style={styles.headerBar}>
-                <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+                <TouchableOpacity 
+                    onPress={() => router.navigate(campanhaId ? `/(Campanha)/Grupo?campanhaId=${campanhaId}` : `/(Campanha)/Grupo`)} 
+                    style={styles.backButton}
+                >
                     <Ionicons name="chevron-back" size={24} color={cores.text} />
                 </TouchableOpacity>
             </View>
