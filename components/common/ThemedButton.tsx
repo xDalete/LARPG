@@ -1,8 +1,10 @@
 import { useThemeColors } from "@/hooks/use-theme-colors";
 import { StyleSheet, Text, TouchableOpacity, ViewStyle, TextStyle, StyleProp } from "react-native";
+import type { ReactNode } from "react";
 
 type ButtonProps = {
-    title: string;
+    title?: string;
+    icon?: ReactNode;
     onPress: () => void;
     backgroundColor?: string;
     textColor?: string;
@@ -12,7 +14,8 @@ type ButtonProps = {
 };
 
 const ThemedButton = ({
-    title,
+    title = "",
+    icon,
     onPress,
     backgroundColor,
     textColor,
@@ -34,9 +37,13 @@ const ThemedButton = ({
                 style
             ]}
         >
-            <Text style={[styles.buttonText, { color: textColor || colorScheme.text }, textStyle]}>
-                {title}
-            </Text>
+            {icon ? (
+                icon
+            ) : (
+                <Text style={[styles.buttonText, { color: textColor || colorScheme.text }, textStyle]}>
+                    {title}
+                </Text>
+            )}
         </TouchableOpacity>
     );
 };

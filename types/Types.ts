@@ -11,3 +11,15 @@ export type CharacterType = {
     vidaAtual: number;
     vidaMax: number;
 }
+
+export type RaceType = {
+    id: string;
+    nome: string;
+    descricao?: string;
+};
+
+export type ClassType = {
+    id: string;
+    nome: string;
+    descricao?: string;
+};

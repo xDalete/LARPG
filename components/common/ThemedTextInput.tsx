@@ -1,16 +1,19 @@
 import { useThemeColors } from "@/hooks/use-theme-colors";
 import { StyleSheet, TextInput } from "react-native";
 
-const ThemedTextInput = ({ ...rest }: React.ComponentProps<typeof TextInput>) => {
+const ThemedTextInput = ({ style, ...rest }: React.ComponentProps<typeof TextInput>) => {
     const colorScheme = useThemeColors();
     return (
         <TextInput
-            style={{
-                ...styles.input,
-                backgroundColor: colorScheme.backgroundLighter,
-                color: colorScheme.text,
-                borderColor: colorScheme.border
-            }}
+            style={[
+                styles.input,
+                {
+                    backgroundColor: colorScheme.backgroundLighter,
+                    color: colorScheme.text,
+                    borderColor: colorScheme.border
+                },
+                style
+            ]}
             placeholderTextColor={colorScheme.textMuted}
             {...rest}
         />

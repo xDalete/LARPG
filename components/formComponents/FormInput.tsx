@@ -1,12 +1,17 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
 import ThemedText from "../common/ThemedText";
 import ThemedTextInput from "../common/ThemedTextInput";
 import { useThemeColors } from "@/hooks/use-theme-colors";
 
-const FormInput = ({ label, ...rest }: { label: string } & React.ComponentProps<typeof ThemedTextInput>) => {
+interface FormInputProps extends React.ComponentProps<typeof ThemedTextInput> {
+    label: string;
+    containerStyle?: StyleProp<ViewStyle>;
+}
+
+const FormInput = ({ label, containerStyle, ...rest }: FormInputProps) => {
     const colorScheme = useThemeColors();
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, containerStyle]}>
             <ThemedText style={{ ...styles.label, color: colorScheme.textMuted }}>{label}</ThemedText>
             <ThemedTextInput {...rest} />
         </View>

@@ -4,6 +4,7 @@ import PageHeader from "@/components/common/PageHeader";
 import ThemedButton from "@/components/common/ThemedButton";
 import ThemedView from "@/components/common/ThemedView";
 import { CharacterType } from "@/types/Types";
+import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -29,7 +30,7 @@ export default function Grupo() {
                 <ThemedButton
                     title="+"
                     onPress={() => {
-                        console.log("Abrir criar usuário");
+                        console.log(router.push('/(CriacaoFicha)/Ficha'));
                     }}
                     backgroundColor="#f1c40f"
                     textColor="#000000"
