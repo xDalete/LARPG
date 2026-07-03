@@ -16,6 +16,7 @@ interface PropriedadesProgressBar {
     color?: string;
     label?: string;
     showText?: boolean;
+    showTextOnBar?: boolean;
 }
 
 export const ProgressBar = ({
@@ -24,7 +25,8 @@ export const ProgressBar = ({
     tipo = "outro",
     color,
     label,
-    showText = true
+    showText = true,
+    showTextOnBar = false
 }: PropriedadesProgressBar) => {
     const corFinal = color || coresPadroes[tipo];
 
@@ -40,10 +42,18 @@ export const ProgressBar = ({
                         estilos.barra,
                         {
                             flex: percentual / 100,
-                            backgroundColor: corFinal
+                            backgroundColor: corFinal,
+                            justifyContent: "center",
+                            alignItems: "center"
                         }
                     ]}
-                />
+                >
+                    {showTextOnBar && percentual > 20 && (
+                        <ThemedText style={estilos.textoNaBarra}>
+                            {current} / {max}
+                        </ThemedText>
+                    )}
+                </View>
                 <View style={estilos.barraVazia} />
             </View>
 
@@ -105,5 +115,12 @@ const estilos = StyleSheet.create({
         color: "#a0a8b8",
         textAlign: "center",
         marginTop: 6
+    },
+
+    textoNaBarra: {
+        fontSize: 10,
+        color: "#ffffff",
+        fontWeight: "bold",
+        textAlign: "center"
     }
 });

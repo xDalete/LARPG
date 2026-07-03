@@ -25,7 +25,7 @@ export const CharacterCard = ({ character }: { character: CharacterType }) => {
                     <ThemedText style={styles.descricao}>{descricao}</ThemedText>
                     <ThemedText style={styles.level}>Level {Math.floor(vidaMax / 10)}</ThemedText>
                 </View>
-                <ProgressBar current={vidaAtual} max={vidaMax} tipo="vida" showText={false} />
+                <ProgressBar current={vidaAtual} max={vidaMax} tipo="vida" showText={false} showTextOnBar={true} />
             </View>
         </Card>
     )
