@@ -8,7 +8,7 @@ import ThemedButton from "@/components/common/ThemedButton";
 
 function FichaTabsContent() {
     const cores = useThemeColors();
-    const { salvarFicha } = useFicha();
+    const { characterId, salvarFicha, deletarFicha } = useFicha();
 
     return (
         <View style={styles.outerContainer}>
@@ -63,6 +63,16 @@ function FichaTabsContent() {
                 />
             </Tabs>
 
+            {characterId && (
+                <ThemedButton
+                    icon={<Ionicons name="trash" size={32} color="#fff" />}
+                    onPress={deletarFicha}
+                    backgroundColor="#e74c3c"
+                    borderRadius={32}
+                    style={styles.floatingDelete}
+                />
+            )}
+
             <ThemedButton
                 icon={<MaterialCommunityIcons name="content-save" size={32} color="#000" />}
                 onPress={salvarFicha}
@@ -113,6 +123,22 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         shadowColor: "#f1c40f",
+        shadowOffset: { width: 0, height: 12 },
+        shadowOpacity: 0.55,
+        shadowRadius: 18,
+        elevation: 20,
+        zIndex: 20
+    },
+    floatingDelete: {
+        position: "absolute",
+        left: 24,
+        bottom: 92,
+        width: 64,
+        height: 64,
+        borderRadius: 32,
+        justifyContent: "center",
+        alignItems: "center",
+        shadowColor: "#e74c3c",
         shadowOffset: { width: 0, height: 12 },
         shadowOpacity: 0.55,
         shadowRadius: 18,

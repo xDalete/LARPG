@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { Alert } from "react-native";
-import { getCharacterById, addCharacter } from "@/api/Character.Api";
+import { getCharacterById, addCharacter, deleteCharacter } from "@/api/Character.Api";
 import { CharacterType } from "@/types/Types";
 import {
     obterDeslocamentoPorRaca,
@@ -52,6 +52,8 @@ type FichaContextType = {
     selectedClassProficiencies: string[];
     setSelectedClassProficiencies: (pericias: string[]) => void;
     salvarFicha: () => void;
+    characterId?: string;
+    deletarFicha: () => void;
 };
 
 const FichaContext = createContext<FichaContextType | undefined>(undefined);
@@ -61,7 +63,7 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
     const characterId = params.characterId as string | undefined;
 
     const [nomeJogador, setNomeJogador] = useState("");
-    const [level, setLevel] = useState("1");
+        const [level, setLevel] = useState("1");
     const [alinhamentos, setAlinhamentos] = useState<string[]>(["Neutro"]);
     const [historia, setHistoria] = useState("");
     const [ouro, setOuro] = useState("0");
@@ -244,6 +246,30 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
         });
     };
 
+    const deletarFicha = () => {
+        if (!characterId) return;
+        Alert.alert(
+            "Confirmar Exclusão",
+            "Deseja realmente deletar este personagem? Esta ação não pode ser desfeita.",
+            [
+                { text: "Cancelar", style: "cancel" },
+                {
+                    text: "Deletar",
+                    style: "destructive",
+                    onPress: () => {
+                        deleteCharacter(characterId).then((res) => {
+                            if (res.success) {
+                                router.push('/(Campanha)/Grupo');
+                            } else {
+                                Alert.alert("Erro", "Não foi possível deletar o personagem.");
+                            }
+                        });
+                    }
+                }
+            ]
+        );
+    };
+
     return (
         <FichaContext.Provider
             value={{
@@ -254,7 +280,8 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
                 selectedClassIds, setSelectedClassIds, selectedOrigins, setSelectedOrigins,
                 selectedKits, setSelectedKits, selectedSpells, setSelectedSpells,
                 selectedLanguages, setSelectedLanguages, selectedSavingThrows, setSelectedSavingThrows,
-                selectedClassProficiencies, setSelectedClassProficiencies, salvarFicha
+                selectedClassProficiencies, setSelectedClassProficiencies, salvarFicha,
+                characterId, deletarFicha
             }}
         >
             {children}
