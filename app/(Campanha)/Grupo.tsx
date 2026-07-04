@@ -47,7 +47,7 @@ export default function Grupo() {
                     <TouchableOpacity onPress={() => router.push("/Campanhas")} style={styles.backButton}>
                         <Ionicons name="chevron-back" size={24} color={cores.text} />
                     </TouchableOpacity>
-                    <PageHeader title={campanhaTitulo} subtitle="Visualize sua ficha dentro da campanha." />
+                    <PageHeader title={campanhaTitulo} subtitle="Visualize sua ficha dentro da campanha." style={{ flex: 1 }} />
                 </View>
                 <View style={styles.characters}>
                     {characters.map((character) => (
@@ -85,14 +85,15 @@ const styles =  StyleSheet.create({
     },
     headerRow: {
         flexDirection: "row",
-        alignItems: "center",
+        alignItems: "flex-start",
         gap: 12
     },
     backButton: {
         width: 36,
         height: 36,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        marginTop: 2
     },
     characters: {
         gap: 20,

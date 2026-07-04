@@ -103,7 +103,7 @@ export default function Diário() {
                     <TouchableOpacity onPress={() => router.navigate("/Campanhas")} style={styles.backButton}>
                         <Ionicons name="chevron-back" size={24} color={colors.text} />
                     </TouchableOpacity>
-                    <PageHeader title="DIÁRIO DO MUNDO" subtitle="" />
+                    <PageHeader title="DIÁRIO DO MUNDO" subtitle="" style={{ flex: 1 }} />
                 </View>
 
                 {/* Filtro de Pesquisa */}
@@ -160,11 +160,12 @@ const styles = StyleSheet.create({
     },
     headerRow: {
         flexDirection: "row",
-        alignItems: "center",
+        alignItems: "flex-start",
         gap: 12
     },
     backButton: {
-        padding: 4
+        padding: 4,
+        marginTop: 2
     },
     loadingContainer: {
         flex: 1,
