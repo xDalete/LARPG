@@ -37,17 +37,17 @@ export function obterDeslocamentoPorRaca(racaId: string): string {
 export function obterIdiomasPorRaca(racaId: string): string[] {
     switch (racaId) {
         case "1": // Humano
-            return ["Comum"];
+            return ["1"];
         case "2": // Elfo
-            return ["Comum", "Élfico"];
+            return ["1", "2"];
         case "3": // Anão
-            return ["Comum", "Anão"];
+            return ["1", "3"];
         case "4": // Orc
-            return ["Comum", "Orc"];
+            return ["1", "4"];
         case "5": // Goblin
-            return ["Comum", "Goblin"];
+            return ["1", "5"];
         default:
-            return ["Comum"];
+            return ["1"];
     }
 }
 

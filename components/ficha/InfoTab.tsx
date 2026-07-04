@@ -87,6 +87,7 @@ const InfoTab = ({
                         selected={alinhamentos}
                         onChange={setAlinhamentos}
                         placeholder="Selecione..."
+                        maxSelections={1}
                     />
                 </View>
             </View>
@@ -107,7 +108,7 @@ const InfoTab = ({
                     placeholder="0"
                     keyboardType="numeric"
                     value={ouro}
-                    onChangeText={setOuro}
+                    onChangeText={(val) => setOuro(val.replace(/[^0-9]/g, ""))}
                     containerStyle={[styles.moneyInput, styles.marginRight]}
                 />
                 <FormInput
@@ -115,7 +116,7 @@ const InfoTab = ({
                     placeholder="0"
                     keyboardType="numeric"
                     value={prata}
-                    onChangeText={setPrata}
+                    onChangeText={(val) => setPrata(val.replace(/[^0-9]/g, ""))}
                     containerStyle={[styles.moneyInput, styles.marginRight]}
                 />
                 <FormInput
@@ -123,7 +124,7 @@ const InfoTab = ({
                     placeholder="0"
                     keyboardType="numeric"
                     value={bronze}
-                    onChangeText={setBronze}
+                    onChangeText={(val) => setBronze(val.replace(/[^0-9]/g, ""))}
                     containerStyle={styles.moneyInput}
                 />
             </View>

@@ -2,6 +2,7 @@ export type ImageType = {
     uri: string;
     averageColor?: string;
     base64?: string;
+    mimeType?: string;
 };
 export type CharacterType = {
     id: string;

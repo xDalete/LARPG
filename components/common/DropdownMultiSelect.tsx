@@ -14,6 +14,7 @@ type DropdownMultiSelectProps = {
     onChange: (selected: string[]) => void;
     placeholder?: string;
     maxSelections?: number;
+    disabled?: boolean;
 };
 
 export default function DropdownMultiSelect({
@@ -22,7 +23,8 @@ export default function DropdownMultiSelect({
     selected = [],
     onChange,
     placeholder = "Selecione...",
-    maxSelections
+    maxSelections,
+    disabled = false
 }: DropdownMultiSelectProps) {
     const [isOpen, setIsOpen] = useState(false);
     const colors = useThemeColors();
@@ -63,11 +65,14 @@ export default function DropdownMultiSelect({
                 style={[
                     styles.selectBox,
                     {
-                        backgroundColor: colors.backgroundLighter,
-                        borderColor: colors.border
+                        backgroundColor: disabled ? colors.background : colors.backgroundLighter,
+                        borderColor: colors.border,
+                        opacity: disabled ? 0.5 : 1
                     }
                 ]}
-                onPress={() => setIsOpen(true)}
+                onPress={() => {
+                    if (!disabled) setIsOpen(true);
+                }}
             >
                 <ThemedText style={[styles.valueText, !selectedLabels && { color: colors.textMuted }]} numberOfLines={1}>
                     {selectedLabels || placeholder}

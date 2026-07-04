@@ -60,6 +60,31 @@ const RaceClassTab = ({
 
     const limiteClasses = permitirMulticlasse(level) ? undefined : 1;
 
+    // Filtros de Magia / Truque conforme as regras do D&D 5e
+    const temClasseComTruque = selectedClassIds.some((id) => ["2", "4"].includes(id)); // Mago (2), Clérigo (4)
+    const temClasseComMagia = selectedClassIds.some((id) => ["2", "4", "5"].includes(id)); // Mago (2), Clérigo (4), Ranger (5)
+
+    // Filtra as opções de magias/truques que serão exibidas
+    let filteredSpells = metadados?.spells || [];
+    if (temClasseComTruque) {
+        // Classes com truques mostram apenas truques (IDs: 1, 4, 5, 6, 7)
+        filteredSpells = filteredSpells.filter((spell) => ["1", "4", "5", "6", "7"].includes(spell.id));
+    } else if (temClasseComMagia) {
+        // Classes com magia mas sem truques (Ranger) mostram apenas magias (IDs: 2, 3)
+        filteredSpells = filteredSpells.filter((spell) => ["2", "3"].includes(spell.id));
+    } else {
+        filteredSpells = [];
+    }
+
+    // Sincroniza as magias selecionadas eliminando as que não são mais válidas para a classe atual
+    useEffect(() => {
+        const allowedSpellIds = filteredSpells.map((s) => s.id);
+        const validSelections = selectedSpells.filter((id) => allowedSpellIds.includes(id));
+        if (validSelections.length !== selectedSpells.length) {
+            setSelectedSpells(validSelections);
+        }
+    }, [selectedClassIds, filteredSpells, selectedSpells, setSelectedSpells]);
+
     return (
         <View style={[globalStyles.container, { gap: 12 }]}>
             <DropdownMultiSelect
@@ -99,10 +124,11 @@ const RaceClassTab = ({
 
             <DropdownMultiSelect
                 label="Magias/Truques"
-                options={metadados?.spells || []}
+                options={filteredSpells}
                 selected={selectedSpells}
                 onChange={setSelectedSpells}
-                placeholder="Selecione magias..."
+                placeholder={temClasseComTruque ? "Selecione truques..." : "Selecione magias..."}
+                disabled={!temClasseComMagia}
             />
 
             <DropdownMultiSelect

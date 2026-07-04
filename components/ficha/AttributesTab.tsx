@@ -38,9 +38,17 @@ const AttributesTab = ({
         }));
     };
 
-    const rolarDadoD20 = (nomeAtributo: string) => {
-        const resultadoRolagem = Math.floor(Math.random() * 20) + 1;
-        atualizarAtributo(nomeAtributo, resultadoRolagem.toString());
+    const rolarDadoAtributo = (nomeAtributo: string) => {
+        // Rola 6d6
+        const rolagens = Array.from({ length: 6 }, () => Math.floor(Math.random() * 6) + 1);
+        // Ordena de forma crescente
+        rolagens.sort((a, b) => a - b);
+        // Descarta os 3 mais baixos (mantém os 3 mais altos/últimos)
+        const maioresTres = rolagens.slice(3);
+        // Soma os maiores
+        const soma = maioresTres.reduce((acc, curr) => acc + curr, 0);
+
+        atualizarAtributo(nomeAtributo, soma.toString());
     };
 
     return (
@@ -79,7 +87,7 @@ const AttributesTab = ({
                         />
 
                         <Card
-                            onPress={() => rolarDadoD20(nomeAtributo)}
+                            onPress={() => rolarDadoAtributo(nomeAtributo)}
                             ContainerStyle={{ borderRadius: 8, height: 44, width: 110 }}
                             style={{ height: 44, justifyContent: "center", alignItems: "center" }}
                         >

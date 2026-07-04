@@ -230,25 +230,63 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
         setIsSaving(true);
 
         // Calcula os pontos de vida conforme regras D&D 5e:
-        // Dados de vida inicial da primeira classe selecionada + Mod de Constituição
+        // 1º nível: Vida Máxima do Dado + Mod de Constituição
+        // Níveis seguintes: Valor Médio do Dado (arredondado para cima) + Mod de Constituição
         const modConstituicao = calcularModificador(atributos["Constituição"] || "10");
         const classeInicialId = selectedClassIds[0];
         
-        let vidaBaseDaClasse = 8; // Média das classes (Ladino, Clérigo)
-        if (classeInicialId === "1" || classeInicialId === "5") {
-            vidaBaseDaClasse = 10; // Guerreiro / Ranger
-        } else if (classeInicialId === "2") {
-            vidaBaseDaClasse = 6; // Mago
+        let vidaNivel1 = 8; // Média/padrão d8 (Ladino, Clérigo)
+        let vidaNiveisSeguintes = 5; 
+        
+        if (classeInicialId === "1" || classeInicialId === "5") { // Guerreiro / Ranger (d10)
+            vidaNivel1 = 10;
+            vidaNiveisSeguintes = 6;
+        } else if (classeInicialId === "2") { // Mago (d6)
+            vidaNivel1 = 6;
+            vidaNiveisSeguintes = 4;
         }
 
-        const pontosVidaMaximos = vidaBaseDaClasse + modConstituicao;
+        // Regra de D&D 5e: Garante ganho mínimo de 1 PV por nível, mesmo com Modificador de Con negativo
+        const ganhoNivel1 = Math.max(1, vidaNivel1 + modConstituicao);
+        const ganhoNiveisSeguintes = Math.max(1, vidaNiveisSeguintes + modConstituicao) * (levelNum - 1);
+        const pontosVidaMaximos = ganhoNivel1 + ganhoNiveisSeguintes;
 
         let finalAvatarUri = avatar.uri;
 
         if (avatar.base64) {
             try {
                 const arrayBuffer = decode(avatar.base64);
-                const fileExt = avatar.uri.split(".").pop() || "jpg";
+                
+                // Determina o tipo MIME e a extensão do arquivo de forma segura
+                let mimeType = avatar.mimeType || "image/jpeg";
+                let fileExt = "jpg";
+
+                if (!avatar.mimeType) {
+                    if (avatar.uri.includes("data:")) {
+                        const match = avatar.uri.match(/data:(image\/[a-zA-Z0-9+.-]+);base64/);
+                        if (match && match[1]) {
+                            mimeType = match[1];
+                        }
+                    } else {
+                        const cleanUri = avatar.uri.split("?")[0].split("#")[0];
+                        const parts = cleanUri.split(".");
+                        if (parts.length > 1) {
+                            const possibleExt = parts.pop()?.toLowerCase();
+                            if (possibleExt && possibleExt.length <= 4 && /^[a-z0-9]+$/.test(possibleExt)) {
+                                fileExt = possibleExt;
+                                mimeType = `image/${fileExt}`;
+                            }
+                        }
+                    }
+                }
+
+                if (mimeType) {
+                    const extMatch = mimeType.split("/")[1];
+                    if (extMatch) {
+                        fileExt = extMatch === "jpeg" ? "jpg" : extMatch;
+                    }
+                }
+
                 const tempId = characterId || Math.random().toString().replace(".", "");
                 const fileName = `${tempId}-${Date.now()}.${fileExt}`;
                 const filePath = `${fileName}`;
@@ -256,7 +294,7 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
                 const { error: uploadError } = await supabase.storage
                     .from("avatars")
                     .upload(filePath, arrayBuffer, {
-                        contentType: `image/${fileExt}`,
+                        contentType: mimeType,
                         upsert: true
                     });
 
@@ -332,7 +370,7 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
         }
 
         const resultado = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            mediaTypes: 'images',
             allowsEditing: true,
             aspect: [1, 1],
             quality: 0.8,
@@ -340,10 +378,12 @@ export function FichaProvider({ children }: { children: React.ReactNode }) {
         });
 
         if (!resultado.canceled && resultado.assets && resultado.assets.length > 0) {
+            const asset = resultado.assets[0];
             setAvatar({
-                uri: resultado.assets[0].uri,
+                uri: asset.uri,
                 averageColor: "#f1c40f",
-                base64: resultado.assets[0].base64 || undefined
+                base64: asset.base64 || undefined,
+                mimeType: asset.mimeType || undefined
             });
         }
     };
